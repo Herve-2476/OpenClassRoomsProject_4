@@ -7,3 +7,6 @@ class Players:
         self.birthday_date = birthday_date
         self.gender = gender
         self.ranking = ranking
+
+    def serialized_player(self):
+        return self.__dict__

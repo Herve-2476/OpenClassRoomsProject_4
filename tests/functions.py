@@ -1,12 +1,27 @@
 import random
-from models.tournaments import Tournaments
+
 from models.players import Players
 from models import data
+
+
+def data_players_creation(players_table):
+    index_list_players = range(len(data.players))
+    rank_players_list = players_instantiation(index_list_players)
+    rank_players_list = [player.serialized_player() for _, player in rank_players_list]
+    print(rank_players_list)
+    players_table.save(rank_players_list)
 
 
 def auto_add_players(tournament):
     index_list_players = random.sample(range(len(data.players)), 8)
     # index_list_players = range(len(data.players))
+    rank_players_list = players_instantiation(index_list_players)
+
+    for _, player in sorted(rank_players_list):
+        tournament.add_player(player)
+
+
+def players_instantiation(index_list_players):
     rank_players_list = []
     for index_player in index_list_players:
         ranking = data.players[index_player]["ranking"]
@@ -22,10 +37,7 @@ def auto_add_players(tournament):
                 ),
             )
         )
-
-    players_list = []
-    for _, player in sorted(rank_players_list):
-        tournament.add_player(player)
+    return rank_players_list
 
 
 def auto_play_tournament(tournament):

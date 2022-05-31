@@ -1,6 +1,6 @@
 from models.tournaments import Tournaments
-from models.players import Players
 from models.players_table import PlayersTable
+from models.players import Players
 import tests.functions
 
 

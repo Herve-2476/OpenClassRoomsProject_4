@@ -1,19 +1,19 @@
-from copyreg import pickle
+import pickle
 import os
 
 
 class PlayersTable:
-    players_table_file_name = "players_table.dat"
-    players_table_list = []
+    players_table_file_name = "models/tables/players_table.dat"
 
     def __init__(self):
-        if os.path.exits(self.players_table_file_name):
-            self.load(self.players_table_file_name)
+        print(os.getcwd())
+        if os.path.exists(self.players_table_file_name):
+            self.load()
 
-    def save(self):
+    def save(self, players_table_list):
         with open(self.players_table_file_name, "wb") as f:
-            pickle.dump(self.players_table_list)
+            pickle.dump(players_table_list, f)
 
     def load(self):
         with open(self.players_table_file_name, "rb") as f:
-            self.players_table_list = pickle.load(f)
+            return pickle.load(f)
