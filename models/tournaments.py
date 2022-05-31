@@ -1,4 +1,4 @@
-from rounds import Rounds
+from .rounds import Rounds
 
 
 class Tournaments:
@@ -9,7 +9,6 @@ class Tournaments:
         name,
         location,
         date,
-        players_list,
         description,
         time_control,
         rounds_number=4,
@@ -20,25 +19,16 @@ class Tournaments:
         self.rounds_number = rounds_number
         self.rounds_list = []
         self.time_control = time_control
-        self.players_list = players_list
+        self.players_list = []
         self.description = description
-        self.first_round_generation()
-        while len(self.rounds_list) < self.rounds_number:
-            # self.following_round_generation()
-            (
-                ranked_players_list,
-                matches_list,
-                ranked_players_point_list,
-            ) = self.players_ranking()
-            self.affichage(ranked_players_point_list)
-            self.following_round_generation(ranked_players_list, matches_list)
+        self.matches_list = []
+        self.players_dict = {}
 
-            # break
-        _, _, ranked_players_point_list = self.players_ranking()
-        self.affichage(ranked_players_point_list)
+    def add_player(self, player):
+        self.players_list.append(player)
 
-    def affichage(self, l):
-        for e in l:
+    def score_display(self, ranked_players_point_list):
+        for e in ranked_players_point_list:
             print(
                 f"{e[2].last_name} a {e[0]} points dans le tournoi et est classé {e[1]}"
             )
@@ -54,27 +44,29 @@ class Tournaments:
 
         self.rounds_list.append(Rounds(players_pair_list, len(self.rounds_list) + 1))
 
-    def players_ranking(self):
-        matches_list = []
-        players_dict = {}
-        for round in self.rounds_list:
-            for match in round.matches_list:
-                player_one = match.match[0][0]
-                player_two = match.match[1][0]
-                result_one = match.match[0][1]
-                result_two = match.match[1][1]
-                matches_list.append((player_one, player_two))
-                players_dict[player_one] = players_dict.get(player_one, 0) + result_one
-                players_dict[player_two] = players_dict.get(player_two, 0) + result_two
+    def ranking_players_after_round(self):
+
+        for match in self.rounds_list[-1].matches_list:
+            player_one = match.match[0][0]
+            player_two = match.match[1][0]
+            result_one = match.match[0][1]
+            result_two = match.match[1][1]
+            self.matches_list.append((player_one, player_two))
+            self.players_dict[player_one] = (
+                self.players_dict.get(player_one, 0) + result_one
+            )
+            self.players_dict[player_two] = (
+                self.players_dict.get(player_two, 0) + result_two
+            )
         ranked_players_list = []
-        for key, value in players_dict.items():
+        for key, value in self.players_dict.items():
             ranked_players_list.append((value, key.ranking, key))
         ranked_players_list.sort(key=lambda x: x[1])
         ranked_players_list.sort(key=lambda x: x[0], reverse=True)
         ranked_players_point_list = list(ranked_players_list)
         ranked_players_list = [player[2] for player in ranked_players_list]
 
-        return ranked_players_list, matches_list, ranked_players_point_list
+        return ranked_players_list, self.matches_list, ranked_players_point_list
 
     def following_round_generation(self, ranked_players_list, matches_list):
 
