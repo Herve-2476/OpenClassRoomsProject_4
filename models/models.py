@@ -9,7 +9,7 @@ class Tournaments:
         players_list,
         description,
         time_control,
-        rounds_number=8,
+        rounds_number=24,
     ):
         self.name = name
         self.location = location
@@ -62,15 +62,16 @@ class Tournaments:
         players_pair_list = []
         while players_list:
             j = 1
+            # print("j = ", j, players_list)
             while (players_list[0], players_list[j]) in matches_list or (
                 players_list[j],
                 players_list[0],
             ) in matches_list:
                 print("égalité trouvée")
-                j += 1
                 if j == len(players_list) - 1:
                     print("on est allé jusqu'au bout")
                     break
+                j += 1
             players_pair_list.append((players_list[0], players_list[j]))
             players_list.remove(players_list[j])
             players_list.remove(players_list[0])
