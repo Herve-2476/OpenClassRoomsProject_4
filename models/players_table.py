@@ -6,8 +6,8 @@ class PlayersTable:
     players_table_file_name = "models/tables/players_table.dat"
 
     def __init__(self):
-        if os.path.exists(self.players_table_file_name):
-            self.load()
+        if not os.path.exists(self.players_table_file_name):
+            self.save([])
 
     def save(self, players_table_list):
         with open(self.players_table_file_name, "wb") as f:

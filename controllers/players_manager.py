@@ -1,5 +1,6 @@
 from models.players_table import PlayersTable
 from models.players import Players
+from views.player_view import PlayerView
 
 
 # import tests.functions
@@ -18,6 +19,9 @@ class PlayersManager:
             self.dico_player_to_object_player(player) for player in list_players
         ]
         return list_players
+
+    def save_players(self, list_players):
+        PlayersTable().save(list_players)
 
     def dico_player_to_object_player(self, player):
         last_name = player["last_name"]
@@ -50,3 +54,9 @@ class PlayersManager:
         list_players = [(player.ranking, player) for player in list_players]
         list_players.sort()
         return [player[1] for player in list_players]
+
+    def add_player(self):
+        player = PlayerView().input_player()
+        list_players = PlayersTable().load()
+        list_players.append(player)
+        PlayersTable().save(list_players)

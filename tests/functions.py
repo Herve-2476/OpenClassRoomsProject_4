@@ -2,13 +2,14 @@ import random
 
 from models.players import Players
 from models import data
+from controllers.players_manager import PlayersManager
 
 
 def data_players_creation(players_table):
     index_list_players = range(len(data.players))
     rank_players_list = players_instantiation(index_list_players)
     rank_players_list = [player.serialized_player() for _, player in rank_players_list]
-    print(rank_players_list)
+
     players_table.save(rank_players_list)
 
 
