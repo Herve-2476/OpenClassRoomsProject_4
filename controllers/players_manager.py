@@ -13,17 +13,21 @@ class PlayersManager:
     def __init__(self):
         pass
 
-    def load_players_list(self):
-        list_players = PlayersTable().load()
-        list_players = [
-            self.dico_player_to_object_player(player) for player in list_players
-        ]
-        return list_players
+    def load_players_list(self, players_table):
+        players_list_serialized = players_table.all()
+        correspondence_players_dict = {}
+        players_list = []
+        for player in players_list_serialized:
+            deserialized_player = self.deserialized_player(player)
+            players_list.append(deserialized_player)
+            correspondence_players_dict[deserialized_player] = player.doc_id
 
-    def save_players(self, list_players):
-        PlayersTable().save(list_players)
+        return players_list, correspondence_players_dict
 
-    def dico_player_to_object_player(self, player):
+    def save_players(self, players_list):
+        PlayersTable().save(players_list)
+
+    def deserialized_player(self, player):
         last_name = player["last_name"]
         first_name = player["first_name"]
         birthday_date = player["birthday_date"]
@@ -38,25 +42,26 @@ class PlayersManager:
             ranking=ranking,
         )
 
-    def sort_in_alphabetical_order(self, list_players):
+    def sort_in_alphabetical_order(self, players_list):
         ###sort in alphabetical order###
-        list_players = [
+        players_list = [
             (player.last_name, player.first_name, player.ranking, player)
-            for player in list_players
+            for player in players_list
         ]
-        list_players.sort(key=lambda x: x[2])
-        list_players.sort(key=lambda x: x[1])
-        list_players.sort(key=lambda x: x[0])
-        return [player[3] for player in list_players]
+        players_list.sort(key=lambda x: x[2])
+        players_list.sort(key=lambda x: x[1])
+        players_list.sort(key=lambda x: x[0])
+        return [player[3] for player in players_list]
 
-    def sort_in_ranking_order(self, list_players):
+    def sort_in_ranking_order(self, players_list):
         ###sort in ranking order###
-        list_players = [(player.ranking, player) for player in list_players]
-        list_players.sort()
-        return [player[1] for player in list_players]
+        players_list = [(player.ranking, player) for player in players_list]
+        players_list.sort()
+        return [player[1] for player in players_list]
 
-    def add_player(self):
+    def add_player(self, players_table):
         player = PlayerView().input_player()
-        list_players = PlayersTable().load()
-        list_players.append(player)
-        PlayersTable().save(list_players)
+        players_table.insert(player)
+
+    def modify_data_player(self, correspondence_players_list):
+        PlayerView().modify_data_player(correspondence_players_list)

@@ -13,16 +13,29 @@ class ApplicationManager:
 
 # tests.functions.data_players_creation(PlayersTable())
 
-players_list = None
+db = TinyDB("db.json")
+players_table = db.table("players")
+
+# tests.functions.data_players_creation(players_table)
+
+
 manager = ApplicationManager()
 player_view = PlayerView()
 players_manager = manager.players_manager()
-players_list = players_manager.load_players_list()
+players_list, correspondence_players_list = players_manager.load_players_list(
+    players_table
+)
+
 player_view.display_players_list(
     players_manager.sort_in_alphabetical_order(players_list)
 )
-player_view.display_players_list(players_manager.sort_in_ranking_order(players_list))
+player_view.display_players_list(
+    players_manager.sort_in_ranking_order(players_list), correspondence_players_list
+)
 
-# players_manager.add_player()
-players_list = players_manager.load_players_list()
+# players_manager.add_player(players_table)
+players_manager.modify_data_player(correspondence_players_list)
+players_list, correspondence_players_list = players_manager.load_players_list(
+    players_table
+)
 player_view.display_players_list(players_manager.sort_in_ranking_order(players_list))

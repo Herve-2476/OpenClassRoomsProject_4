@@ -9,8 +9,8 @@ def data_players_creation(players_table):
     index_list_players = range(len(data.players))
     rank_players_list = players_instantiation(index_list_players)
     rank_players_list = [player.serialized_player() for _, player in rank_players_list]
-
-    players_table.save(rank_players_list)
+    players_table.truncate()
+    players_table.insert_multiple(rank_players_list)
 
 
 def auto_add_players(tournament):
