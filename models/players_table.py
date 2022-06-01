@@ -6,7 +6,6 @@ class PlayersTable:
     players_table_file_name = "models/tables/players_table.dat"
 
     def __init__(self):
-        print(os.getcwd())
         if os.path.exists(self.players_table_file_name):
             self.load()
 
