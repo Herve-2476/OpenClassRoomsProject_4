@@ -2,7 +2,7 @@ import re
 
 
 class PlayerView:
-    correspondence_column_title_dict = {
+    correspondence_db_display_dict = {
         "last_name": "Nom",
         "first_name": "Prénom",
         "birth_date": "Date de naissance",
@@ -23,7 +23,7 @@ class PlayerView:
         if players_list:
             print()
             self.display_line(
-                [id_name] + list(self.correspondence_column_title_dict.values())
+                [id_name] + list(self.correspondence_db_display_dict.values())
             )
             print()
             if correspondence_players_dict:
@@ -32,7 +32,7 @@ class PlayerView:
                         [correspondence_players_dict[player]]
                         + [
                             player.__dict__[key]
-                            for key in self.correspondence_column_title_dict.keys()
+                            for key in self.correspondence_db_display_dict.keys()
                         ]
                     )
             else:
@@ -41,7 +41,7 @@ class PlayerView:
                         [""]
                         + [
                             player.__dict__[key]
-                            for key in self.correspondence_column_title_dict.keys()
+                            for key in self.correspondence_db_display_dict.keys()
                         ]
                     )
 
