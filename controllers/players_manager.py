@@ -63,5 +63,8 @@ class PlayersManager:
         player = PlayerView().input_player()
         players_table.insert(player)
 
-    def modify_data_player(self, correspondence_players_list):
-        PlayerView().modify_data_player(correspondence_players_list)
+    def modify_data_player(self, players_table, correspondence_players_list):
+        serialized_player, id_player = PlayerView().modify_data_player(
+            correspondence_players_list
+        )
+        players_table.update(serialized_player, doc_ids=[id_player])
