@@ -1,8 +1,11 @@
+import re
+
+
 class PlayerView:
     correspondence_column_title_dict = {
         "last_name": "Nom",
         "first_name": "Prénom",
-        "birthday_date": "Date de naissance",
+        "birth_date": "Date de naissance",
         "gender": "Sexe",
         "ranking": "Classement",
     }
@@ -46,9 +49,37 @@ class PlayerView:
         data = {}
         data["last_name"] = input("Nom : ")
         data["first_name"] = input("Prénom : ")
-        data["birthday_date"] = input("Date de naissance (JJ/MM/AAAA) : ")
-        data["gender"] = input("Sexe : ")
-        data["ranking"] = int(input("Classement : "))
+
+        while True:
+            entry = input("Date de naissance (JJ/MM/AAAA) : ")
+            if (
+                re.match(
+                    "(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d",
+                    entry,
+                )
+                != None
+            ):
+                data["birth_date"] = entry
+                break
+
+        while True:
+            entry = input("Sexe : ")
+            if entry in ["M", "F"]:
+                data["gender"] = entry
+                break
+
+        while True:
+            entry = input("Classement : ")
+            if (
+                re.match(
+                    "\d+",
+                    entry,
+                )
+                != None
+            ):
+                data["ranking"] = int(entry)
+                break
+
         return data
 
     def modify_data_player(self, correspondence_players_dict):
@@ -57,14 +88,48 @@ class PlayerView:
         player = list(correspondence_players_dict.keys())[index]
         data = {}
 
-        var = input("Nom : " + player.last_name + " ")
-        data["last_name"] = player.last_name if var == "" else var
-        var = input("Prénom : " + player.first_name)
-        data["first_name"] = player.first_name if var == "" else var
-        var = input("Date de naissance (JJ/MM/AAAA) : " + player.birthday_date)
-        data["birthday_date"] = player.birthday_date if var == "" else var
-        var = input("Sexe : " + player.gender)
-        data["gender"] = player.gender if var == "" else var
-        var = input("Classement : " + str(player.ranking))
-        data["ranking"] = player.ranking if var == "" else int(var)
+        entry = input("Nom : " + player.last_name + " ")
+        data["last_name"] = player.last_name if entry == "" else entry
+        entry = input("Prénom : " + player.first_name + " ")
+        data["first_name"] = player.first_name if entry == "" else entry
+
+        while True:
+            entry = input("Date de naissance (JJ/MM/AAAA) : " + player.birth_date + " ")
+            if entry == "":
+                data["birth_date"] = player.birth_date
+                break
+            elif (
+                re.match(
+                    "(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d",
+                    entry,
+                )
+                != None
+            ):
+                data["birth_date"] = entry
+                break
+
+        while True:
+            entry = input("Sexe : " + player.gender + " ")
+            if entry == "":
+                data["gender"] = player.gender
+                break
+
+            elif entry in ["M", "F"]:
+                data["gender"] = entry
+                break
+        while True:
+            entry = input("Classement : " + str(player.ranking) + " ")
+            if entry == "":
+                data["ranking"] = player.ranking
+                break
+            elif (
+                re.match(
+                    "\d+",
+                    entry,
+                )
+                != None
+            ):
+                data["ranking"] = int(entry)
+                break
+
         return data, id

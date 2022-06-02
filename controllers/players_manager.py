@@ -30,14 +30,14 @@ class PlayersManager:
     def deserialized_player(self, player):
         last_name = player["last_name"]
         first_name = player["first_name"]
-        birthday_date = player["birthday_date"]
+        birth_date = player["birth_date"]
         gender = player["gender"]
         ranking = player["ranking"]
 
         return Players(
             last_name=last_name,
             first_name=first_name,
-            birthday_date=birthday_date,
+            birth_date=birth_date,
             gender=gender,
             ranking=ranking,
         )

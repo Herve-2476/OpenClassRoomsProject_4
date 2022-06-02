@@ -32,7 +32,7 @@ def players_instantiation(index_list_players):
                 Players(
                     last_name=data.players[index_player]["last_name"],
                     first_name=data.players[index_player]["first_name"],
-                    birthday_date=data.players[index_player]["birthday_date"],
+                    birth_date=data.players[index_player]["birth_date"],
                     gender=data.players[index_player]["gender"],
                     ranking=data.players[index_player]["ranking"],
                 ),
