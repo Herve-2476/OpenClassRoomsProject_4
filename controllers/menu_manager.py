@@ -7,11 +7,12 @@ class MenuManager:
             "Liste de tous les joueurs par ordre alphabétique",
             "Liste de tous les joueurs par ordre de classement",
             "Liste de tous les tournois",
+            "Quitter le programme",
         ]
     }
 
     def __init__(self, menu):
-        self.menu_list = self.menu_dict[menu]
+        self.view = views.menu_view.Menu(self.menu_dict["main_menu"])
 
     def display(self):
-        self.choice = views.menu_view.Menu().display_menu(self.menu_list)
+        self.choice = self.view.display_menu()

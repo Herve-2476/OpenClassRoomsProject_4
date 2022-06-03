@@ -14,8 +14,9 @@ class PlayerView:
         form = "{0:^8}{1:15}{2:15}{3:20}{4:8}{5:^12}"
         print(form.format(*line))
 
-    def display_players_list(self, players_list, correspondence_players_dict=[]):
-
+    def display_players_list(self, players_list_title, correspondence_players_dict=[]):
+        players_list, title = players_list_title
+        print("Liste des joueurs par", title)
         id_name = ""
         if correspondence_players_dict:
             id_name = "ID"

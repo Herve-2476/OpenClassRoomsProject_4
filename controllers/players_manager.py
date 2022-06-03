@@ -51,13 +51,13 @@ class PlayersManager:
         players_list.sort(key=lambda x: x[2])
         players_list.sort(key=lambda x: x[1])
         players_list.sort(key=lambda x: x[0])
-        return [player[3] for player in players_list]
+        return [player[3] for player in players_list], "ORDRE ALPHABETIQUE"
 
     def sort_in_ranking_order(self, players_list):
         ###sort in ranking order###
         players_list = [(player.ranking, player) for player in players_list]
         players_list.sort()
-        return [player[1] for player in players_list]
+        return [player[1] for player in players_list], "CLASSEMENT"
 
     def add_player(self, players_table):
         player = PlayerView().input_player()

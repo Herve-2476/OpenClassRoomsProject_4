@@ -1,3 +1,5 @@
+import os
+
 # import controllers.tournament_manager
 from tinydb import TinyDB
 import tests.functions
@@ -5,6 +7,9 @@ from controllers.players_manager import PlayersManager
 from views.player_view import PlayerView
 from models.players_table import PlayersTable
 from controllers.menu_manager import MenuManager
+
+
+clearConsole = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear")
 
 
 db = TinyDB("db.json")
@@ -16,19 +21,26 @@ players_list, correspondence_players_dict = players_manager.load_players_list(
 )
 
 main_menu = MenuManager("main_menu")
+main_menu.view.clear_console()
 while True:
     main_menu.display()
     if main_menu.choice == 1:
+
+        main_menu.view.clear_console()
         player_view.display_players_list(
             players_manager.sort_in_alphabetical_order(players_list),
             correspondence_players_dict,
         )
 
     elif main_menu.choice == 2:
+        main_menu.view.clear_console()
         player_view.display_players_list(
             players_manager.sort_in_ranking_order(players_list),
             correspondence_players_dict,
         )
+
+    elif True:
+        pass
     else:
         break
 
