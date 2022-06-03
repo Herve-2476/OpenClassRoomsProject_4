@@ -56,7 +56,7 @@ class PlayersManager:
     def sort_in_ranking_order(self, players_list):
         ###sort in ranking order###
         players_list = [(player.ranking, player) for player in players_list]
-        players_list.sort()
+        players_list.sort(key=lambda x: x[0])
         return [player[1] for player in players_list], "CLASSEMENT"
 
     def add_player(self, players_table):

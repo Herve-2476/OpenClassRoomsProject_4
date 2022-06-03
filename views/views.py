@@ -9,7 +9,7 @@ class Views:
             "title": "Liste des joueurs par",
         },
         "tournaments": {
-            "form": "{0:^8}{1:15}{2:15}{3:20}{4:8}{5:^12}",
+            "form": "{0:^8}{1:20}{2:20}{3:20}{4:8}{5:^12}",
             "title": "Liste des tournoi par",
         },
     }
@@ -30,6 +30,7 @@ class Views:
         players_list, title = players_list_title
         print(self.view_dict[self.view_name]["title"], title)
         print()
+
         id_name = ""
         if correspondence_players_dict:
             id_name = "ID"
@@ -50,6 +51,7 @@ class Views:
                         ]
                     )
             else:
+
                 for player in players_list:
                     self.display_line(
                         [""]
