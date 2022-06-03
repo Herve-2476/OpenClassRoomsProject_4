@@ -1,3 +1,6 @@
+import re
+
+
 class TournamentView:
     correspondence_db_display_dict = {
         "name": "Nom du tournoi",

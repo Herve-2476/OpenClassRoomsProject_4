@@ -90,7 +90,16 @@ class PlayerView:
     def modify_data_player(self, correspondence_players_dict):
         print("Modification d'un joueur/joueuse")
         print()
-        id = int(input("Entrez l'ID du joueur/joueuse à modifier : "))
+        while True:
+            try:
+                id = int(input("choisissez un indice : "))
+            except ValueError:
+                print("vous devez entrer un entier")
+            else:
+                if id in correspondence_players_dict.values():
+                    break
+                else:
+                    print("vous devez entrer un indice existant")
         index = list(correspondence_players_dict.values()).index(id)
         player = list(correspondence_players_dict.keys())[index]
         data = {}
