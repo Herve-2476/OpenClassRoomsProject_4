@@ -7,6 +7,10 @@ class MenuManager:
             "Liste de tous les joueurs par ordre alphabétique",
             "Liste de tous les joueurs par ordre de classement",
             "Liste de tous les tournois",
+            "Entrer un nouveau joueur",
+            "Modifier un joueur",
+            "Créer un tournoi",
+            "Charger un tournoi",
             "Quitter le programme",
         ]
     }

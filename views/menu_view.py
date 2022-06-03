@@ -1,9 +1,8 @@
 import os
+from views.views import Views
 
 
-class Menu:
-    clean_system_command = "cls" if os.name in ("nt", "dos") else "clear"
-
+class Menu(Views):
     def __init__(self, menu_list):
         self.menu_list = menu_list
 
@@ -24,8 +23,3 @@ class Menu:
                 else:
                     print("vous devez entrer un entier entre 1 et", len(self.menu_list))
         return choice
-
-    def clear_console(self):
-        os.system(self.clean_system_command)
-        print("############ CHESS PROGRAM ############")
-        print()

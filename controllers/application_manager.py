@@ -16,9 +16,7 @@ db = TinyDB("db.json")
 players_table = db.table("players")
 player_view = PlayerView()
 players_manager = PlayersManager()
-players_list, correspondence_players_dict = players_manager.load_players_list(
-    players_table
-)
+
 
 main_menu = MenuManager("main_menu")
 main_menu.view.clear_console()
@@ -27,20 +25,38 @@ while True:
     if main_menu.choice == 1:
 
         main_menu.view.clear_console()
+        players_list, correspondence_players_dict = players_manager.load_players_list(
+            players_table
+        )
+        player_view.display_players_list(
+            players_manager.sort_in_alphabetical_order(players_list),
+        )
+
+    elif main_menu.choice == 2:
+        main_menu.view.clear_console()
+        players_list, correspondence_players_dict = players_manager.load_players_list(
+            players_table
+        )
+        player_view.display_players_list(
+            players_manager.sort_in_ranking_order(players_list),
+        )
+    elif main_menu.choice == 4:
+        main_menu.view.clear_console()
+        players_manager.add_player(players_table)
+
+    elif main_menu.choice == 5:
+        main_menu.view.clear_console()
+        players_list, correspondence_players_dict = players_manager.load_players_list(
+            players_table
+        )
+
         player_view.display_players_list(
             players_manager.sort_in_alphabetical_order(players_list),
             correspondence_players_dict,
         )
 
-    elif main_menu.choice == 2:
-        main_menu.view.clear_console()
-        player_view.display_players_list(
-            players_manager.sort_in_ranking_order(players_list),
-            correspondence_players_dict,
-        )
+        players_manager.modify_data_player(players_table, correspondence_players_dict)
 
-    elif True:
-        pass
     else:
         break
 

@@ -17,12 +17,13 @@ class PlayerView:
     def display_players_list(self, players_list_title, correspondence_players_dict=[]):
         players_list, title = players_list_title
         print("Liste des joueurs par", title)
+        print()
         id_name = ""
         if correspondence_players_dict:
             id_name = "ID"
 
         if players_list:
-            print()
+
             self.display_line(
                 [id_name] + list(self.correspondence_db_display_dict.values())
             )
@@ -45,8 +46,11 @@ class PlayerView:
                             for key in self.correspondence_db_display_dict.keys()
                         ]
                     )
+            print()
 
     def input_player(self):
+        print("Saisie d'un nouveau joueur")
+        print()
         data = {}
         data["last_name"] = input("Nom : ")
         data["first_name"] = input("Prénom : ")
@@ -84,7 +88,9 @@ class PlayerView:
         return data
 
     def modify_data_player(self, correspondence_players_dict):
-        id = int(input("Entrez l'ID du jouer/joueuse à modifier : "))
+        print("Modification d'un joueur/joueuse")
+        print()
+        id = int(input("Entrez l'ID du joueur/joueuse à modifier : "))
         index = list(correspondence_players_dict.values()).index(id)
         player = list(correspondence_players_dict.keys())[index]
         data = {}
