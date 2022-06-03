@@ -1,7 +1,8 @@
 import re
+from views.views import Views
 
 
-class TournamentView:
+class TournamentView(Views):
     correspondence_db_display_dict = {
         "name": "Nom du tournoi",
         "location": "Lieu du tournoi",
@@ -12,6 +13,9 @@ class TournamentView:
         "time_control": "Contrôle du temps",
         "description": "Remarques du Directeur",
     }
+
+    def __init__(self):
+        super().__init__("tournaments")
 
     def input_tournament(self):
         data = {}

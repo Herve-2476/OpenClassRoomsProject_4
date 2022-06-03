@@ -1,7 +1,8 @@
 import re
+from views.views import Views
 
 
-class PlayerView:
+class PlayerView(Views):
     correspondence_db_display_dict = {
         "last_name": "Nom",
         "first_name": "Prénom",
@@ -10,43 +11,8 @@ class PlayerView:
         "ranking": "Classement",
     }
 
-    def display_line(self, line):
-        form = "{0:^8}{1:15}{2:15}{3:20}{4:8}{5:^12}"
-        print(form.format(*line))
-
-    def display_players_list(self, players_list_title, correspondence_players_dict=[]):
-        players_list, title = players_list_title
-        print("Liste des joueurs par", title)
-        print()
-        id_name = ""
-        if correspondence_players_dict:
-            id_name = "ID"
-
-        if players_list:
-
-            self.display_line(
-                [id_name] + list(self.correspondence_db_display_dict.values())
-            )
-            print()
-            if correspondence_players_dict:
-                for player in players_list:
-                    self.display_line(
-                        [correspondence_players_dict[player]]
-                        + [
-                            player.__dict__[key]
-                            for key in self.correspondence_db_display_dict.keys()
-                        ]
-                    )
-            else:
-                for player in players_list:
-                    self.display_line(
-                        [""]
-                        + [
-                            player.__dict__[key]
-                            for key in self.correspondence_db_display_dict.keys()
-                        ]
-                    )
-            print()
+    def __init__(self):
+        super().__init__("players")
 
     def input_player(self):
         print("Saisie d'un nouveau joueur")

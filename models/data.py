@@ -2,7 +2,7 @@ players = []
 players.append(
     {
         "last_name": "Dupont",
-        "first_name": "Eric",
+        "first_name": "Didier",
         "birth_date": "01/01/1970",
         "gender": "M",
         "ranking": 1,

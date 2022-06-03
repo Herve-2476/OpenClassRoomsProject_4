@@ -14,8 +14,7 @@ class TournamentsManager:
         tournaments_table.insert(tournament)
 
     def display_tournaments_list(self, tournaments_table):
-        for e in tournaments_table.all():
-            print(e)
+        self.tournament_view.display_players_list((tournaments_table.all(), "bof"))
 
         # self.tournament_view.display_tournaments_list
 

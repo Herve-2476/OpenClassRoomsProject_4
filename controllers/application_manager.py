@@ -48,6 +48,7 @@ while True:
     elif main_menu.choice == 4:
         main_menu.view.clear_console()
         players_manager.add_player(players_table)
+        main_menu.view.clear_console()
 
     elif main_menu.choice == 5:
         main_menu.view.clear_console()
@@ -61,6 +62,7 @@ while True:
         )
 
         players_manager.modify_data_player(players_table, correspondence_players_dict)
+        main_menu.view.clear_console()
 
     elif main_menu.choice == 6:
         tournaments_manager.add_tournament(tournaments_table)
