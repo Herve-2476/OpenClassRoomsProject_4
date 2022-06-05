@@ -3,7 +3,7 @@ from views.views import Views
 
 
 class TournamentView(Views):
-    correspondence_db_display_dict = {
+    columns_name_dict = {
         "name": "Nom du tournoi",
         "location": "Lieu du tournoi",
         "date": "Date du tournoi",
@@ -13,6 +13,8 @@ class TournamentView(Views):
         "time_control": "Contrôle du temps",
         "description": "Remarques du Directeur",
     }
+    format_line_display = "{0:^8}{1:20}{2:20}{3:20}"
+    title_display = "Liste des tournois"
 
     def __init__(self):
         super().__init__("tournaments")

@@ -6,17 +6,17 @@ import tests.functions
 
 
 class TournamentsManager:
-    def __init__(self):
+    def __init__(self, table):
         self.tournament_view = TournamentView()
+        self.table = table
+        table.truncate()
 
-    def add_tournament(self, tournaments_table):
+    def add_tournament(self):
         tournament = self.tournament_view.input_tournament()
-        tournaments_table.insert(tournament)
+        self.table.insert(tournament)
 
-    def display_tournaments_list(self, tournaments_table):
-        self.tournament_view.display_players_list((tournaments_table.all(), "bof"))
-
-        # self.tournament_view.display_tournaments_list
+    def display_tournaments_list(self):
+        self.tournament_view.display_db_list(self.table.all())
 
 
 """tournament = Tournaments(
