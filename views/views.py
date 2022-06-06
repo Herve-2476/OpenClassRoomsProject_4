@@ -66,9 +66,9 @@ class Views:
                     )
             print()
 
-    def display_db_list(self, db_table_list, id=True):
+    def display_db_list(self, db_table_list, id=True, ordre=""):
         self.clear_console()
-        print(self.title_display)
+        print(self.title_display, ordre)
         print()
         id_name = ""
         if id:
@@ -88,3 +88,17 @@ class Views:
                 for record in db_table_list:
                     self.display_line_1([""] + [value for value in record.values()])
             print()
+
+    def id_input(self, id_list):
+        while True:
+            try:
+                id = int(input("choisissez un indice : "))
+            except ValueError:
+                print("vous devez entrer un entier")
+            else:
+                if id in id_list:
+                    break
+                else:
+                    print("vous devez entrer un indice existant")
+
+        return id

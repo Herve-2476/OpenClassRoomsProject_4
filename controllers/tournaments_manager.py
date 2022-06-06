@@ -9,14 +9,24 @@ class TournamentsManager:
     def __init__(self, table):
         self.tournament_view = TournamentView()
         self.table = table
-        table.truncate()
+        self.players_number = 8
+        # table.truncate()
 
     def add_tournament(self):
-        tournament = self.tournament_view.input_tournament()
-        self.table.insert(tournament)
+        # self.tournament_dict = self.tournament_view.input_tournament()
+        self.tournament_dict = {}
 
     def display_tournaments_list(self):
         self.tournament_view.display_db_list(self.table.all())
+
+    def add_tournament_players_list(self, id_players_list):
+        print(id_players_list)
+        self.tournament_dict[
+            "players_list"
+        ] = self.tournament_view.input_tournament_players_list(
+            id_players_list, self.players_number
+        )
+        self.table.insert(self.tournament)
 
 
 """tournament = Tournaments(

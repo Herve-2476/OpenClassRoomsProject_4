@@ -13,6 +13,7 @@ class TournamentView(Views):
         "time_control": "Contrôle du temps",
         "description": "Remarques du Directeur",
     }
+
     format_line_display = "{0:^8}{1:20}{2:20}{3:20}"
     title_display = "Liste des tournois"
 
@@ -36,3 +37,12 @@ class TournamentView(Views):
                 break
 
         return data
+
+    def input_tournament_players_list(self, id_players_list, players_number):
+        print(f"Vous devez entrer les IDs de {players_number} joueurs")
+        tournament_players_list = []
+        for i in range(players_number):
+            tournament_players_list.append(self.id_input(id_players_list))
+
+        print(tournament_players_list)
+        assert 1 == 2

@@ -6,6 +6,7 @@ from models.models import Models
 from tinydb import TinyDB
 import tests.functions
 from controllers.players_manager import PlayersManager
+from controllers.players_manager import PlayersManagerNew
 from controllers.tournaments_manager import TournamentsManager
 from views.player_view import PlayerView
 from views.tournament_view import TournamentView
@@ -19,6 +20,7 @@ db = Models()
 players_table = db.table("players")
 player_view = PlayerView()
 players_manager = PlayersManager()
+players_manager_new = PlayersManagerNew(db.table("players"))
 tournaments_manager = TournamentsManager(db.table("tournaments"))
 
 
@@ -68,6 +70,8 @@ while True:
 
     elif main_menu.choice == 6:
         tournaments_manager.add_tournament()
+        id_players_list = players_manager_new.display_players_list()
+        tournaments_manager.add_tournament_players_list(id_players_list)
 
     else:
         break
