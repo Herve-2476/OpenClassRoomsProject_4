@@ -1,13 +1,5 @@
 from tinydb import TinyDB
 
-# from tournaments import Tournaments
-# from players import Players
-# from players_table import PlayersTable
-# import data
-# import random
-
-# import pickle
-
 
 class Models(TinyDB):
     def __init__(self):

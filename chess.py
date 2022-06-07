@@ -1,1 +1,3 @@
-import controllers.application_manager
+from controllers.application_controller import ApplicationsControllers
+
+ApplicationsControllers()

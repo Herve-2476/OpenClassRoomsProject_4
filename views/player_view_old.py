@@ -3,7 +3,13 @@ from views.views import Views
 
 
 class PlayerView(Views):
-
+    correspondence_db_display_dict = {
+        "last_name": "Nom",
+        "first_name": "Prénom",
+        "birth_date": "Date de naissance",
+        "gender": "Sexe",
+        "ranking": "Classement",
+    }
     columns_name_dict = {
         "last_name": "Nom",
         "first_name": "Prénom",
