@@ -1,9 +1,23 @@
-from tournaments import Tournaments
-from players import Players
-from players_table import PlayersTable
-import data
-import random
-import pickle
+from tinydb import TinyDB
+
+# from tournaments import Tournaments
+# from players import Players
+# from players_table import PlayersTable
+# import data
+# import random
+
+# import pickle
+
+
+class Models(TinyDB):
+    def __init__(self):
+        super().__init__("db.json")
+
+    def load_all(self, table):
+        return table.all()
+
+    def save(self):
+        pass
 
 
 if __name__ == "__main__":

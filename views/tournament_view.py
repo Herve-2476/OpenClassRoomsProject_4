@@ -3,7 +3,7 @@ from views.views import Views
 
 
 class TournamentView(Views):
-    correspondence_db_display_dict = {
+    columns_name_dict = {
         "name": "Nom du tournoi",
         "location": "Lieu du tournoi",
         "date": "Date du tournoi",
@@ -13,6 +13,9 @@ class TournamentView(Views):
         "time_control": "Contrôle du temps",
         "description": "Remarques du Directeur",
     }
+
+    format_line_display = "{0:^8}{1:20}{2:20}{3:20}"
+    title_display = "Liste des tournois"
 
     def __init__(self):
         super().__init__("tournaments")
@@ -34,3 +37,11 @@ class TournamentView(Views):
                 break
 
         return data
+
+    def input_tournament_players_list(self, id_players_list, players_number):
+        print(f"Vous devez entrer les IDs de {players_number} joueurs")
+        tournament_players_set = set()
+        while len(tournament_players_set) < players_number:
+            tournament_players_set.add(self.id_input(id_players_list))
+
+        return list(tournament_players_set)

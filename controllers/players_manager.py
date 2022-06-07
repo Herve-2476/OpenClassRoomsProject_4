@@ -9,6 +9,22 @@ from views.player_view import PlayerView
 # tests.functions.data_players_creation(PlayersTable())
 
 
+class PlayersManagerNew:
+    def __init__(self, table):
+        self.player_view = PlayerView()
+        self.table = table
+
+    def display_players_list(self, ordre="Alphabétique"):
+        table = self.table.all()
+        table.sort(key=lambda x: x["ranking"])
+        if ordre == "Alphabétique":
+            table.sort(key=lambda x: x["first_name"])
+            table.sort(key=lambda x: x["last_name"])
+
+        self.player_view.display_db_list(table, ordre=ordre)
+        return [record.doc_id for record in table]
+
+
 class PlayersManager:
     def __init__(self):
         pass

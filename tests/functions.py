@@ -60,6 +60,28 @@ def auto_play_tournament(tournament):
     tournament.score_display(ranked_players_point_list)
 
 
+def play_round_new(tournament):
+    round = tournament.rounds_list[-1]
+    round.input_results(auto_round_result(len(round.players_pair_list)))
+    round.end_round()
+
+    for match in round.matches_list:
+        player_one = match.match[0][0]
+        player_two = match.match[1][0]
+        result_player_one = match.match[0][1]
+        result_player_two = match.match[1][1]
+        print(
+            f"résultat du match {player_one.last_name} , {player_two.last_name} = {result_player_one} , {result_player_two}"
+        )
+    (
+        ranked_players_list,
+        matches_list,
+        ranked_players_point_list,
+    ) = tournament.ranking_players_after_round()
+    tournament.score_display(ranked_players_point_list)
+    tournament.following_round_generation(ranked_players_list, matches_list)
+
+
 def play_round(tournament):
     round = tournament.rounds_list[-1]
     round.input_results(auto_round_result(len(round.players_pair_list)))

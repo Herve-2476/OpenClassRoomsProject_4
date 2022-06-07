@@ -10,6 +10,15 @@ class PlayerView(Views):
         "gender": "Sexe",
         "ranking": "Classement",
     }
+    columns_name_dict = {
+        "last_name": "Nom",
+        "first_name": "Prénom",
+        "birth_date": "Date de naissance",
+        "gender": "Sexe",
+        "ranking": "Classement",
+    }
+    format_line_display = "{0:^8}{1:15}{2:15}{3:20}{4:8}{5:^12}"
+    title_display = "Liste des joueurs par"
 
     def __init__(self):
         super().__init__("players")
