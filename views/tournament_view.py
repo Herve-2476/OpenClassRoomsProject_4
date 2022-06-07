@@ -40,9 +40,8 @@ class TournamentView(Views):
 
     def input_tournament_players_list(self, id_players_list, players_number):
         print(f"Vous devez entrer les IDs de {players_number} joueurs")
-        tournament_players_list = []
-        for i in range(players_number):
-            tournament_players_list.append(self.id_input(id_players_list))
+        tournament_players_set = set()
+        while len(tournament_players_set) < players_number:
+            tournament_players_set.add(self.id_input(id_players_list))
 
-        print(tournament_players_list)
-        assert 1 == 2
+        return list(tournament_players_set)

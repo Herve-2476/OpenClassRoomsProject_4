@@ -10,6 +10,8 @@ class MenuManager:
             "Entrer un nouveau joueur",
             "Modifier un joueur",
             "Créer un tournoi",
+            "Liste des matchs à jouer",
+            "Enregistrer les résultats de la ronde",
             "Charger un tournoi",
             "Quitter le programme",
         ]

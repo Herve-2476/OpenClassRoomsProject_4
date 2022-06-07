@@ -23,12 +23,13 @@ class Views:
         print()
 
     def display_line(self, line):
+
         form = self.view_dict[self.view_name]["form"]
         print(form.format(*line))
 
     def display_line_1(self, line):
         form = self.format_line_display
-        print(form.format(*line))
+        print(form.format(*[str(e) for e in line]))
 
     def display_players_list(self, players_list_title, correspondence_players_dict=[]):
         players_list, title = players_list_title

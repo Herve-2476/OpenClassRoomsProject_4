@@ -22,6 +22,7 @@ player_view = PlayerView()
 players_manager = PlayersManager()
 players_manager_new = PlayersManagerNew(db.table("players"))
 tournaments_manager = TournamentsManager(db.table("tournaments"))
+tournaments_manager.players_table = players_manager_new.table
 
 
 main_menu = MenuManager("main_menu")
@@ -72,6 +73,12 @@ while True:
         tournaments_manager.add_tournament()
         id_players_list = players_manager_new.display_players_list()
         tournaments_manager.add_tournament_players_list(id_players_list)
+
+    elif main_menu.choice == 7:
+        tournaments_manager.matches_to_play_list()
+
+    elif main_menu.choice == 8:
+        tournaments_manager.recording_round_results()
 
     else:
         break

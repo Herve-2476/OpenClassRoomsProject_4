@@ -9,8 +9,9 @@ class Tournaments:
         name,
         location,
         date,
-        description,
-        time_control,
+        players_list,
+        description="nice day to play",
+        time_control="bullet",
         rounds_number=4,
     ):
         self.name = name
@@ -19,7 +20,7 @@ class Tournaments:
         self.rounds_number = rounds_number
         self.rounds_list = []
         self.time_control = time_control
-        self.players_list = []
+        self.players_list = players_list
         self.description = description
         self.matches_list = []
         self.players_dict = {}
