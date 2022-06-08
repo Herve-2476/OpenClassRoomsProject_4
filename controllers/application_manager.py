@@ -5,12 +5,12 @@ from models.models import Models
 # import controllers.tournament_manager
 from tinydb import TinyDB
 import tests.functions
-from controllers.players_manager import PlayersManager
-from controllers.players_manager import PlayersManagerNew
+from controllers.players_controller_old import PlayersManager
+from controllers.players_controller_old import PlayersManagerNew
 from controllers.tournaments_manager import TournamentsManager
-from views.player_view import PlayerView
-from views.tournament_view import TournamentView
-from controllers.menu_manager import MenuManager
+from views.player_view_old import PlayerView
+from views.tournament_view_old import TournamentView
+from controllers.menu_controller import MenuManager
 
 
 clearConsole = lambda: os.system("cls" if os.name in ("nt", "dos") else "clear")

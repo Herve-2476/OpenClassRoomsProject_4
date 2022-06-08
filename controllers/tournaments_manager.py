@@ -1,7 +1,7 @@
 from models.tournaments import Tournaments
 from models.players_table import PlayersTable
 from models.players import Players
-from views.tournament_view import TournamentView
+from views.tournament_view_old import TournamentView
 import tests.functions
 
 

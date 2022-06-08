@@ -7,14 +7,14 @@ class TournamentView(Views):
         "name": "Nom du tournoi",
         "location": "Lieu du tournoi",
         "date": "Date du tournoi",
-        "rounds_number": "Nombre de tours",
+        "time_control": "Ctrl Temps",
+        "description": "Remarques du Directeur",
+        "rounds_number": "Tours",
         "rounds": "Tournées",
         "players_list": "Liste des joueurs",
-        "time_control": "Contrôle du temps",
-        "description": "Remarques du Directeur",
     }
 
-    format_line_display = "{0:^8}{1:20}{2:20}{3:20}"
+    format_line_display = "{0:^8}{1:17}{2:17}{3:17}{6:^8}{4:15}{5:30}"
     title_display = "Liste des tournois"
 
     def __init__(self):
@@ -35,6 +35,12 @@ class TournamentView(Views):
             ):
                 data["date"] = entry
                 break
+        while True:
+            entry = input("Contrôle du temps (bullet,blitz ou coup rapide) : ")
+            if entry in ["bullet", "blitz", "coup rapide"]:
+                data["time_control"] = entry
+                break
+        data["description"] = input("Description : ")
 
         return data
 

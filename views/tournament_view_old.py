@@ -1,5 +1,5 @@
 import re
-from views.views import Views
+from views.views_old import Views
 
 
 class TournamentView(Views):

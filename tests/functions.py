@@ -2,7 +2,7 @@ import random
 
 from models.players import Players
 from models import data
-from controllers.players_manager import PlayersManager
+from controllers.players_controller_old import PlayersManager
 
 
 def data_players_creation(players_table):
