@@ -8,7 +8,7 @@ class TournamentView(Views):
         "location": "Lieu du tournoi",
         "date": "Date du tournoi",
         "time_control": "Ctrl Temps",
-        "description": "Remarques du Directeur",
+        "description": "Description",
         "rounds_number": "Tours",
         "rounds": "Tournées",
         "players_list": "Liste des joueurs",

@@ -35,10 +35,12 @@ class ApplicationsControllers:
                 players_controller.modify_player()
 
             elif main_menu.choice == 6:
+
+                tournaments_controller.control_selection_tournament()
+
                 main_menu.view.clear_console(
                     tournaments_controller.name_selected_tournament
                 )
-
                 while True:
                     tournament_menu.display()
                     if tournament_menu.choice == 1:
@@ -46,6 +48,9 @@ class ApplicationsControllers:
 
                     elif tournament_menu.choice == 2:
                         tournaments_controller.add_tournament()
+
+                    elif tournament_menu.choice == 3:
+                        tournaments_controller.matches_to_play_list()
 
                     elif tournament_menu.choice == 9:
                         tournament_menu.view.clear_console()

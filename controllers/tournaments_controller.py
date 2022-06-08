@@ -1,3 +1,4 @@
+import re
 from views.tournament_view import TournamentView
 from models.tournaments import Tournaments
 from models.rounds import Rounds
@@ -15,8 +16,20 @@ class TournamentsController:
         self.id_selected_tournament = 0
         self.name_selected_tournament = ""
         self.players_controller = players_controller
+        self.date_regex = (
+            "(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d"
+        )
+        self.tournament = None
+
         # self.table.truncate()
         # table.remove(doc_ids=[11])
+
+    def control_selection_tournament(self):
+        """if no tournament selected, the last input tournament is selected"""
+        if not self.tournament:
+            id_tournaments_list = self.display_tournaments_list()
+            if id_tournaments_list:
+                self.select_tournament(id_tournaments_list[-1])
 
     def display_tournaments_list(self):
         table = self.db.load_all(self.table)
@@ -60,12 +73,30 @@ class TournamentsController:
         return self.db.get_id(self.players_controller.table, id_player)
 
     def add_tournament(self):
-        tournament = self.tournament_view.input_tournament()
-        tournament["rounds_number"] = self.rounds_number
-        tournament["rounds_list"] = []
-        id_players_list = self.players_controller.display_players_list()
-        tournament["players_list"] = self.tournament_view.input_tournament_players_list(
-            id_players_list, self.players_number
-        )
+        while True:
+            tournament = self.tournament_view.input_tournament()
+            tournament["rounds_number"] = self.rounds_number
+            tournament["rounds_list"] = []
+            id_players_list = self.players_controller.display_players_list()
+            tournament[
+                "players_list"
+            ] = self.tournament_view.input_tournament_players_list(
+                id_players_list, self.players_number
+            )
+            if self.control_data_tournament(tournament):
+                break
 
         self.select_tournament(self.db.insert(self.table, tournament))
+
+    def control_data_tournament(self, tournament):
+        control = [
+            isinstance(tournament["name"], str),
+            isinstance(tournament["location"], str),
+            re.match(self.date_regex, tournament["date"]),
+            tournament["time_control"] in ["bullet", "blitz", "coup rapide"],
+            isinstance(tournament["description"], str),
+        ]
+        return all(control)
+
+    def matches_to_play_list(self):
+        pass
