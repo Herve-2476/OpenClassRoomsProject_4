@@ -13,7 +13,7 @@ class ApplicationsControllers:
         tournament_menu = MenuController("tournament_menu")
         db = Models()
         players_controller = PlayersController(db)
-        tournaments_controller = TournamentsController(db)
+        tournaments_controller = TournamentsController(db, players_controller)
         main_menu.view.clear_console()
         while True:
             main_menu.display()
@@ -35,10 +35,19 @@ class ApplicationsControllers:
                 players_controller.modify_player()
 
             elif main_menu.choice == 6:
-                main_menu.view.clear_console()
-                tournament_menu.display()
+                main_menu.view.clear_console(
+                    tournaments_controller.name_selected_tournament
+                )
+
                 while True:
-                    if tournament_menu.choice == 9:
+                    tournament_menu.display()
+                    if tournament_menu.choice == 1:
+                        tournaments_controller.load_tournament()
+
+                    elif tournament_menu.choice == 2:
+                        tournaments_controller.add_tournament()
+
+                    elif tournament_menu.choice == 9:
                         tournament_menu.view.clear_console()
                         break
             else:

@@ -42,6 +42,6 @@ class TournamentView(Views):
         print(f"Vous devez entrer les IDs de {players_number} joueurs")
         tournament_players_set = set()
         while len(tournament_players_set) < players_number:
-            tournament_players_set.add(self.id_input(id_players_list))
+            tournament_players_set.add(self.id_choice(id_players_list, title=""))
 
         return list(tournament_players_set)

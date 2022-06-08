@@ -57,21 +57,6 @@ class PlayerView(Views):
 
         return player
 
-    def id_choice(self, id_list):
-        print("Modification d'un joueur/joueuse")
-        print()
-        while True:
-            try:
-                id = int(input("choisissez un indice : "))
-            except ValueError:
-                print("vous devez entrer un entier")
-            else:
-                if id in id_list:
-                    break
-                else:
-                    print("vous devez entrer un indice existant")
-        return id
-
     def modify_player(self, player):
         """modify a player in dict format"""
 

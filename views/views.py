@@ -12,7 +12,7 @@ class Views:
         print("############ CHESS PROGRAM ############")
         print()
         if tournament_name:
-            print("Tournoi en cours :", tournament_name)
+            print("Tournoi sélectionné :", tournament_name)
             print()
 
     def display_line(self, line):
@@ -41,3 +41,19 @@ class Views:
                 for record in db_table_list:
                     self.display_line([""] + [value for value in record.values()])
             print()
+
+    def id_choice(self, id_list, title="Choix d'un élément de la table"):
+        if title:
+            print(title)
+            print()
+        while True:
+            try:
+                id = int(input("choisissez un indice : "))
+            except ValueError:
+                print("vous devez entrer un entier")
+            else:
+                if id in id_list:
+                    break
+                else:
+                    print("vous devez entrer un indice existant")
+        return id
