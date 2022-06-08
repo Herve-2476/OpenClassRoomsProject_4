@@ -18,13 +18,21 @@ class ApplicationsControllers:
         while True:
             main_menu.display()
             if main_menu.choice == 1:
-                players_controller.display_players_list(order="ordre Alphabétique")
+                players_controller.display_players_list(
+                    id=False, order="ordre Alphabétique"
+                )
 
             elif main_menu.choice == 2:
-                players_controller.display_players_list(order="classement")
+                players_controller.display_players_list(id=False, order="classement")
 
             elif main_menu.choice == 3:
                 tournaments_controller.display_tournaments_list()
+
+            elif main_menu.choice == 4:
+                players_controller.add_player()
+
+            elif main_menu.choice == 5:
+                players_controller.modify_player()
 
             elif main_menu.choice == 6:
                 main_menu.view.clear_console()

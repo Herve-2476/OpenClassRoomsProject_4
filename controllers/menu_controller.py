@@ -10,6 +10,7 @@ class MenuController:
             "Entrer un nouveau joueur",
             "Modifier un joueur",
             "Menu tournoi",
+            "Quitter",
         ],
         "tournament_menu": [
             "Charger un tournoi",

@@ -1,6 +1,6 @@
 from models.players_table import PlayersTable
 from models.players import Players
-from views.player_view import PlayerView
+from views.player_view_old import PlayerView
 
 
 # import tests.functions
@@ -59,7 +59,7 @@ class PlayersManager:
         )
 
     def sort_in_alphabetical_order(self, players_list):
-        ###sort in alphabetical order###
+        """sort in alphabetical order"""
         players_list = [
             (player.last_name, player.first_name, player.ranking, player)
             for player in players_list
@@ -70,7 +70,7 @@ class PlayersManager:
         return [player[3] for player in players_list], "ORDRE ALPHABETIQUE"
 
     def sort_in_ranking_order(self, players_list):
-        ###sort in ranking order###
+        """sort in ranking order"""
         players_list = [(player.ranking, player) for player in players_list]
         players_list.sort(key=lambda x: x[0])
         return [player[1] for player in players_list], "CLASSEMENT"

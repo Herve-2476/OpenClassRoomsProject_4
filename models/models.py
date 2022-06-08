@@ -8,6 +8,15 @@ class Models(TinyDB):
     def load_all(self, table):
         return table.all()
 
+    def insert(self, table, data):
+        return table.insert(data)
+
+    def get_id(self, table, id):
+        return table.get(doc_id=id)
+
+    def update_id(self, table, id, player):
+        return table.update(player, doc_ids=[id])
+
     def save(self):
         pass
 

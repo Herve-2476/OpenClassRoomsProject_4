@@ -20,12 +20,13 @@ class PlayerView(Views):
     def input_player(self):
         print("Saisie d'un nouveau joueur")
         print()
-        data = {}
-        data["last_name"] = input("Nom : ")
-        data["first_name"] = input("Prénom : ")
+        player = {}
+        player["last_name"] = input("Nom : ")
+        player["first_name"] = input("Prénom : ")
 
         while True:
             entry = input("Date de naissance (JJ/MM/AAAA) : ")
+
             if (
                 re.match(
                     "(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d",
@@ -33,13 +34,13 @@ class PlayerView(Views):
                 )
                 != None
             ):
-                data["birth_date"] = entry
+                player["birth_date"] = entry
                 break
 
         while True:
             entry = input("Sexe : ")
             if entry in ["M", "F"]:
-                data["gender"] = entry
+                player["gender"] = entry
                 break
 
         while True:
@@ -51,12 +52,12 @@ class PlayerView(Views):
                 )
                 != None
             ):
-                data["ranking"] = int(entry)
+                player["ranking"] = int(entry)
                 break
 
-        return data
+        return player
 
-    def modify_data_player(self, correspondence_players_dict):
+    def id_choice(self, id_list):
         print("Modification d'un joueur/joueuse")
         print()
         while True:
@@ -65,23 +66,27 @@ class PlayerView(Views):
             except ValueError:
                 print("vous devez entrer un entier")
             else:
-                if id in correspondence_players_dict.values():
+                if id in id_list:
                     break
                 else:
                     print("vous devez entrer un indice existant")
-        index = list(correspondence_players_dict.values()).index(id)
-        player = list(correspondence_players_dict.keys())[index]
-        data = {}
+        return id
 
-        entry = input("Nom : " + player.last_name + " ")
-        data["last_name"] = player.last_name if entry == "" else entry
-        entry = input("Prénom : " + player.first_name + " ")
-        data["first_name"] = player.first_name if entry == "" else entry
+    def modify_player(self, player):
+        """modify a player in dict format"""
+
+        entry = input("Nom : " + player["last_name"] + " ")
+        if entry != "":
+            player["last_name"] = entry
+        entry = input("Prénom : " + player["first_name"] + " ")
+        if entry != "":
+            player["first_name"] = entry
 
         while True:
-            entry = input("Date de naissance (JJ/MM/AAAA) : " + player.birth_date + " ")
+            entry = input(
+                "Date de naissance (JJ/MM/AAAA) : " + player["birth_date"] + " "
+            )
             if entry == "":
-                data["birth_date"] = player.birth_date
                 break
             elif (
                 re.match(
@@ -90,22 +95,20 @@ class PlayerView(Views):
                 )
                 != None
             ):
-                data["birth_date"] = entry
+                player["birth_date"] = entry
                 break
 
         while True:
-            entry = input("Sexe : " + player.gender + " ")
+            entry = input("Sexe : " + player["gender"] + " ")
             if entry == "":
-                data["gender"] = player.gender
                 break
 
             elif entry in ["M", "F"]:
-                data["gender"] = entry
+                player["gender"] = entry
                 break
         while True:
-            entry = input("Classement : " + str(player.ranking) + " ")
+            entry = input("Classement : " + str(player["ranking"]) + " ")
             if entry == "":
-                data["ranking"] = player.ranking
                 break
             elif (
                 re.match(
@@ -114,7 +117,7 @@ class PlayerView(Views):
                 )
                 != None
             ):
-                data["ranking"] = int(entry)
+                player["ranking"] = int(entry)
                 break
 
-        return data, id
+        return player
