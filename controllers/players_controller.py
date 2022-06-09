@@ -26,7 +26,7 @@ class PlayersController:
         self.player_view.clear_console()
         while True:
             player = self.player_view.input_player()
-            if self.control_player(player):
+            if self.control_data_player(player):
                 break
 
         self.db.insert(self.table, player)
@@ -43,12 +43,12 @@ class PlayersController:
 
         while True:
             player = self.player_view.modify_player(player)
-            if self.control_player(player):
+            if self.control_data_player(player):
                 break
         self.db.update_id(self.table, id_choice, player)
         self.player_view.clear_console()
 
-    def control_player(self, player):
+    def control_data_player(self, player):
         control = [
             isinstance(player["last_name"], str),
             isinstance(player["first_name"], str),
@@ -58,3 +58,9 @@ class PlayersController:
         ]
 
         return all(control)
+
+    def matches_to_play_list(self):
+        if self.tournament.rounds_list:
+            pass
+        else:
+            self.tournament.first_round_generation()

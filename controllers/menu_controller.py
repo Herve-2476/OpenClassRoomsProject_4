@@ -15,13 +15,18 @@ class MenuController:
         "tournament_menu": [
             "Charger un tournoi",
             "Créer un tournoi",
-            "Liste des matchs à jouer",
-            "Enregistrer les résultats de la ronde",
             "Liste de tous les joueurs du tournoi par ordre alphabétique",
             "Liste de tous les joueurs du tournoi par classement",
             "Liste de tous les tours d'un tournoi",
             "Liste de tous les matchs d'un tournoi",
+            "Menu round",
             "Menu principal",
+        ],
+        "round_menu": [
+            "Liste des matchs à jouer de la ronde",
+            "Démarrer la ronde",
+            "Finir la ronde",
+            "Enregistrer les résultats des matchs de la ronde",
         ],
     }
 

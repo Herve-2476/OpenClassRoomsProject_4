@@ -23,6 +23,7 @@ class Tournaments:
         self.time_control = time_control
         self.players_list = players_list
         self.description = description
+
         self.matches_list = []
         self.players_dict = {}
 
@@ -44,7 +45,36 @@ class Tournaments:
                 (self.players_list[i], self.players_list[i + half_players_number])
             )
 
-        self.rounds_list.append(Rounds(players_pair_list, len(self.rounds_list) + 1))
+        self.rounds_list.append(
+            Rounds(
+                name="Round " + str(len(self.rounds_list) + 1),
+                matches_list=players_pair_list,
+            )
+        )
+
+    def last_round_analyze(self):
+
+        if len(self.rounds_list) >= self.rounds_number and self.is_round_end():
+            return "Il n'y a plus de rondes à jouer dans ce tournoi"
+
+        elif self.rounds_list:
+            if self.is_round_start():
+                return matches_to_play_list
+            else:
+                pass
+
+        else:
+            self.first_round_generation()
+
+        return
+
+    @property
+    def is_round_start(self):
+        round = self.rounds_list[-1]
+
+    @property
+    def is_round_end(self):
+        pass
 
     def ranking_players_after_round(self):
 

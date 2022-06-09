@@ -24,16 +24,20 @@ class TournamentsController:
         # self.table.truncate()
         # table.remove(doc_ids=[11])
 
-    def control_selection_tournament(self):
-        """if no tournament selected, the last input tournament is selected"""
+    def control_round_selection(self):
+        """select the last round to play (if it exist) of the selected tournament"""
+        self.tournament.last_round_analyze()
+
+    def control_tournament_selection(self):
+        """if no tournament selected, the last input tournament is selected if it exist"""
         if not self.tournament:
             id_tournaments_list = self.display_tournaments_list()
             if id_tournaments_list:
                 self.select_tournament(id_tournaments_list[-1])
 
-    def display_tournaments_list(self):
+    def display_tournaments_list(self, **args):
         table = self.db.load_all(self.table)
-        self.tournament_view.display_db_list(table)
+        self.tournament_view.display_db_list(table, **args)
         return [record.doc_id for record in table]
 
     def load_tournament(self):
@@ -57,8 +61,9 @@ class TournamentsController:
         )
         self.tournament_view.clear_console(self.name_selected_tournament)
 
-    def instantiation(self, id_choice):
-        tournament_dict = self.db.get_id(self.table, id_choice)
+    def instantiation(self, id_choice=None, tournament_dict=None):
+        if not tournament_dict:
+            tournament_dict = self.db.get_id(self.table, id_choice)
         tournament = Tournaments(**tournament_dict)
 
         tournament.rounds_list = [Rounds(**round) for round in tournament.rounds_list]
@@ -73,10 +78,10 @@ class TournamentsController:
         return self.db.get_id(self.players_controller.table, id_player)
 
     def add_tournament(self):
-        while True:
+        while False:
             tournament = self.tournament_view.input_tournament()
             tournament["rounds_number"] = self.rounds_number
-            tournament["rounds_list"] = []
+            tournament["rounds_list"] = [{"name": "Round 1"}]
             id_players_list = self.players_controller.display_players_list()
             tournament[
                 "players_list"
@@ -85,6 +90,25 @@ class TournamentsController:
             )
             if self.control_data_tournament(tournament):
                 break
+
+        tournament = {
+            "name": "tournoi_4",
+            "location": "bordeaux",
+            "date": "01/01/2022",
+            "players_list": [1, 2, 3, 4, 6, 7, 8, 9],
+            "description": "Nice day to play",
+            "time_control": "bullet",
+            "rounds_number": 4,
+            "rounds_list": [],
+        }
+
+        self.tournament = self.instantiation(tournament_dict=tournament)
+        print(self.tournament.__dict__)
+
+        self.tournament.first_round_generation()
+        self.tournament.rounds_list[-1].display()
+
+        assert 1 == 2
 
         self.select_tournament(self.db.insert(self.table, tournament))
 
@@ -97,6 +121,3 @@ class TournamentsController:
             isinstance(tournament["description"], str),
         ]
         return all(control)
-
-    def matches_to_play_list(self):
-        pass

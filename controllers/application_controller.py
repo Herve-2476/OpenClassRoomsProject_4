@@ -26,7 +26,7 @@ class ApplicationsControllers:
                 players_controller.display_players_list(id=False, order="classement")
 
             elif main_menu.choice == 3:
-                tournaments_controller.display_tournaments_list()
+                tournaments_controller.display_tournaments_list(id=False)
 
             elif main_menu.choice == 4:
                 players_controller.add_player()
@@ -36,7 +36,7 @@ class ApplicationsControllers:
 
             elif main_menu.choice == 6:
 
-                tournaments_controller.control_selection_tournament()
+                tournaments_controller.control_tournament_selection()
 
                 main_menu.view.clear_console(
                     tournaments_controller.name_selected_tournament
@@ -49,10 +49,10 @@ class ApplicationsControllers:
                     elif tournament_menu.choice == 2:
                         tournaments_controller.add_tournament()
 
-                    elif tournament_menu.choice == 3:
-                        tournaments_controller.matches_to_play_list()
+                    elif tournament_menu.choice == 7:
+                        tournaments_controller.control_round_selection()
 
-                    elif tournament_menu.choice == 9:
+                    elif tournament_menu.choice == 8:
                         tournament_menu.view.clear_console()
                         break
             else:
