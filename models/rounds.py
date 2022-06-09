@@ -17,10 +17,29 @@ class Rounds:
 
     def matches_instantiation(self, matches_list):
 
-        return [
-            Matches(first_player, second_player)
-            for first_player, second_player in matches_list
-        ]
+        if isinstance(matches_list[0][0], int):
+            return [
+                Matches(first_player, second_player)
+                for first_player, second_player in matches_list
+            ]
+
+        else:
+            return_list = []
+            for match in matches_list:
+                first_player = match[0][0]
+                second_player = match[1][0]
+                result_first_player = match[0][1]
+                result_second_player = match[1][1]
+                return_list.append(
+                    Matches(
+                        first_player,
+                        second_player,
+                        result_first_player,
+                        result_second_player,
+                    )
+                )
+
+            return return_list
 
     def start_round(self):
         self.start_time_round = datetime.datetime.today()
@@ -40,9 +59,15 @@ class Rounds:
                 Matches(player_one, player_two, result_one, result_two)
             )
 
-    def display(self):
-        for match in self.matches_list:
-            print(match.display())
+    @property
+    def serialized(self):
+        serialized_dict = {
+            "name": self.name,
+            "start_time_round": self.start_time_round,
+            "end_time_round": self.end_time_round,
+            "matches_list": [match.serialized for match in self.matches_list],
+        }
+        return serialized_dict
 
     @property
     def round_started(self):

@@ -4,18 +4,36 @@ from views.views import Views
 
 class TournamentView(Views):
     columns_name_dict = {
-        "name": "Nom du tournoi",
-        "location": "Lieu du tournoi",
-        "date": "Date du tournoi",
-        "time_control": "Ctrl Temps",
-        "description": "Description",
-        "rounds_number": "Tours",
-        "rounds": "Tournées",
-        "players_list": "Liste des joueurs",
+        "tournaments_display": {
+            "name": "Nom du tournoi",
+            "location": "Lieu du tournoi",
+            "date": "Date du tournoi",
+            "rounds_number": "Tours",
+            "rounds_list": "Tournées",
+            "time_control": "Ctrl Temps",
+            "players_list": "Liste des joueurs",
+            "description": "Description",
+        },
+        "rounds_display": {
+            "name": "Nom de la ronde",
+            "start_time_round": "Début de la ronde",
+            "end_time_round": "Fin de la ronde",
+        },
+        "matches_display": {
+            "match": "Détail du match",
+        },
     }
 
-    format_line_display = "{0:^8}{1:17}{2:17}{3:17}{6:^8}{4:15}{5:30}"
-    title_display = "Liste des tournois"
+    format_line_display = {
+        "tournaments_display": "{0:^8}{1:17}{2:17}{3:17}{4:^8}{6:15}{8:30}",
+        "rounds_display": "{0:^8}{1:17}{2:20}{3:20}",
+        "matches_display": "{0:^8}{1:30}",
+    }
+    title_display = {
+        "tournaments_display": "Liste des tournois",
+        "rounds_display": "Liste des rondes du tournoi",
+        "matches_display": "Liste des matchs du tournoi",
+    }
 
     def __init__(self):
         super().__init__("tournaments")

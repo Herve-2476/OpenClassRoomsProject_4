@@ -4,6 +4,9 @@ from .rounds import Rounds
 class Tournaments:
     """to create an tournament instance"""
 
+    matches_list = []
+    players_dict = {}
+
     def __init__(
         self,
         name,
@@ -24,8 +27,14 @@ class Tournaments:
         self.players_list = players_list
         self.description = description
 
-        self.matches_list = []
-        self.players_dict = {}
+    @property
+    def serialized(self):
+        tournament_dict = dict(self.__dict__)
+        tournament_dict["rounds_list"] = [
+            round.serialized for round in self.rounds_list
+        ]
+
+        return tournament_dict
 
     def add_player(self, player):
         self.players_list.append(player)

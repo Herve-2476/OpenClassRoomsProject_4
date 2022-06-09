@@ -19,14 +19,18 @@ class ApplicationsControllers:
             main_menu.display()
             if main_menu.choice == 1:
                 players_controller.display_players_list(
-                    id=False, order="ordre Alphabétique"
+                    id=False, order="ordre Alphabétique", display_name="players_display"
                 )
 
             elif main_menu.choice == 2:
-                players_controller.display_players_list(id=False, order="classement")
+                players_controller.display_players_list(
+                    id=False, order="classement", display_name="players_display"
+                )
 
             elif main_menu.choice == 3:
-                tournaments_controller.display_tournaments_list(id=False)
+                tournaments_controller.display_tournaments_list(
+                    id=False, display_name="tournaments_display"
+                )
 
             elif main_menu.choice == 4:
                 players_controller.add_player()
@@ -48,6 +52,26 @@ class ApplicationsControllers:
 
                     elif tournament_menu.choice == 2:
                         tournaments_controller.add_tournament()
+
+                    elif tournament_menu.choice == 3:
+                        tournaments_controller.display_tournament_players_list(
+                            order="ordre Alphabétique", display_name="players_display"
+                        )
+
+                    elif tournament_menu.choice == 4:
+                        tournaments_controller.display_tournament_players_list(
+                            order="classement", display_name="players_display"
+                        )
+
+                    elif tournament_menu.choice == 5:
+                        tournaments_controller.display_tournament_rounds_list(
+                            display_name="rounds_display"
+                        )
+
+                    elif tournament_menu.choice == 6:
+                        tournaments_controller.display_tournament_macthes_list(
+                            display_name="matches_display"
+                        )
 
                     elif tournament_menu.choice == 7:
                         tournaments_controller.control_round_selection()

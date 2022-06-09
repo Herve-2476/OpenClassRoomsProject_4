@@ -11,20 +11,25 @@ class Matches:
         result_second_player=None,
     ):
         db = Models()
+        args_first_player = db.get_id(db.table("players"), first_player)
+        args_first_player["id"] = first_player
+        args_second_player = db.get_id(db.table("players"), second_player)
+        args_second_player["id"] = second_player
 
-        self.match = (
+        self.match = [
             [
-                Players(**db.get_id(db.table("players"), first_player)),
+                Players(**args_first_player),
                 result_first_player,
             ],
             [
-                Players(**db.get_id(db.table("players"), second_player)),
+                Players(**args_second_player),
                 result_second_player,
             ],
-        )
+        ]
 
-    def display(self):
+    @property
+    def serialized(self):
         return (
-            self.match[0][0].serialized_player(),
-            self.match[1][0].serialized_player(),
+            [self.match[0][0].id, self.match[0][1]],
+            [self.match[1][0].id, self.match[1][1]],
         )

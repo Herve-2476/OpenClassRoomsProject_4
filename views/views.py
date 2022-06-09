@@ -15,13 +15,13 @@ class Views:
             print("Tournoi sélectionné :", tournament_name)
             print()
 
-    def display_line(self, line):
-        form = self.format_line_display
+    def display_line(self, line, display_name):
+        form = self.format_line_display[display_name]
         print(form.format(*[str(arg) for arg in line]))
 
-    def display_db_list(self, db_table_list, id=True, order=""):
+    def display_db_list(self, db_table_list, id=True, order="", display_name=""):
         self.clear_console()
-        print(self.title_display, order)
+        print(self.title_display[display_name], order)
         print()
         id_name = ""
         if id:
@@ -29,18 +29,37 @@ class Views:
 
         if db_table_list:
 
-            self.display_line([id_name] + list(self.columns_name_dict.values()))
+            self.display_line(
+                [id_name] + list(self.columns_name_dict[display_name].values()),
+                display_name,
+            )
             print()
             if id_name:
                 for record in db_table_list:
                     self.display_line(
-                        [record.doc_id] + [value for value in record.values()]
+                        [record.doc_id] + [value for value in record.values()],
+                        display_name,
                     )
             else:
 
                 for record in db_table_list:
-                    self.display_line([""] + [value for value in record.values()])
+                    self.display_line(
+                        [""] + [value for value in record.values()], display_name
+                    )
             print()
+
+    def display_list(self, list_to_display, order="", title="", display_name=""):
+        if not title:
+            print(self.title_display[display_name], order)
+        else:
+            print(title)
+
+        print()
+        self.display_line(
+            [""] + list(self.columns_name_dict[display_name].values()), display_name
+        )
+        for record in list_to_display:
+            self.display_line([""] + [value for value in record.values()], display_name)
 
     def id_choice(self, id_list, title="Choix d'un élément de la table"):
         if title:
