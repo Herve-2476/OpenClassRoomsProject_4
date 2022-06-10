@@ -23,10 +23,9 @@ class MenuController:
             "Menu principal",
         ],
         "round_menu": [
-            "Liste des matchs à jouer de la ronde",
             "Démarrer la ronde",
             "Finir la ronde",
-            "Enregistrer les résultats des matchs de la ronde",
+            "Menu Tournament",
         ],
     }
 

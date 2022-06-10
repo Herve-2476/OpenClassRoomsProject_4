@@ -24,11 +24,6 @@ class TournamentsController:
         # self.table.truncate()
         # self.table.remove(doc_ids=[4])
 
-    def control_round_selection(self):
-        """select the last round to play (if it exist) of the selected tournament"""
-        self.tournament.last_round_analyze()
-        assert 1 == 2
-
     def control_tournament_selection(self):
         """if no tournament selected, the last input tournament is selected if it exist"""
         if not self.tournament:
@@ -149,7 +144,7 @@ class TournamentsController:
             rounds_tournament_list.append(round.serialized)
         self.tournament_view.display_list(rounds_tournament_list, **args)
 
-    def display_tournament_macthes_list(self, **args):
+    def display_tournament_matches_list(self, display_name="", **args):
         self.tournament_view.clear_console(self.name_selected_tournament)
         matches_tournament_list = []
         for round in self.tournament.rounds_list:
@@ -162,17 +157,88 @@ class TournamentsController:
                 )
                 result_first_player = str(match.match[0][1])
                 result_second_player = str(match.match[1][1])
+                if display_name == "matches_display":
+                    matches_tournament_list.append(
+                        {
+                            "round_name": round.name,
+                            "first_player": first_player + ", " + result_first_player,
+                            "second_player": second_player
+                            + ", "
+                            + result_second_player,
+                            "match": (
+                                first_player + ", " + result_first_player,
+                                second_player + ", " + result_second_player,
+                            ),
+                        }
+                    )
 
-                matches_tournament_list.append(
-                    {
-                        "round_name": round.name,
-                        "first_player": first_player + ", " + result_first_player,
-                        "second_player": second_player + ", " + result_second_player,
-                        "match": (
-                            first_player + ", " + result_first_player,
-                            second_player + ", " + result_second_player,
-                        ),
-                    }
+                else:
+                    matches_tournament_list.append(
+                        {
+                            "round_name": round.name,
+                            "match": "(" + first_player + ", " + second_player + ")",
+                        }
+                    )
+
+        self.tournament_view.display_list(
+            matches_tournament_list, display_name=display_name, **args
+        )
+
+    def control_round_selection(self):
+        """select the last round to play (if it exist) of the selected tournament"""
+        self.tournament_view.clear_console(self.name_selected_tournament)
+        self.tournament_view.message(self.tournament.last_round_analyze())
+        if self.tournament.state == "tournament_over":
+            return False
+
+        elif self.tournament.state == "round_not_start":
+            self.display_tournament_matches_list(display_name="matches_to_play_display")
+
+        elif self.tournament.state == "round_start":
+            pass
+
+        elif self.tournament.state == "round_end":
+            pass
+        return True
+
+    def start_round(self):
+        self.tournament_view.clear_console(self.name_selected_tournament)
+        if self.tournament.state == "round_not_start":
+            self.tournament_view.message(self.tournament.start_round())
+            self.tournament.state = "round_start"
+
+        elif self.tournament.state == "round_start":
+            self.tournament_view.message(
+                f"La ronde {self.tournament.rounds_list[-1].name} est déjà démarrée"
+            )
+
+    def end_round(self):
+        if self.tournament.state == "round_start":
+            self.tournament_view.message(
+                "\nSaisie des résultats des matchs de la ronde (V = Victoire, E = Egalité, P = Perdu)\n"
+            )
+
+            for match in round.matches_list[-1]:
+                first_player = (
+                    match.match[0][0].last_name + " " + match.match[0][0].first_name
                 )
+                second_player = (
+                    match.match[1][0].last_name + " " + match.match[1][0].first_name
+                )
+                match_str = "(" + first_player + ", " + second_player + ")"
+                while True:
+                    score = self.tournament_view.input_result(first_player, match_str)
+                    if score in [
+                        "V",
+                        "E",
+                        "P",
+                    ]:
+                        break
+                self.tournament.record_match(match, score)
 
-        self.tournament_view.display_list(matches_tournament_list, **args)
+            self.tournament.state == "round_end"
+            ###reste à faire = générer la prochaine ronde si possible
+
+        else:
+            self.tournament_view.clear_console(self.name_selected_tournament)
+            self.tournament_view.message("La ronde n'est pas démarrée...")

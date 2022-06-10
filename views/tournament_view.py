@@ -23,23 +23,31 @@ class TournamentView(Views):
             "round_name": "Nom de la ronde",
             "first_player": "Nom Prénom, Score",
             "second_player": "Nom Prénom, Score",
-            "match": "('Nom Prénom, Score','Nom Prénom, Score')",
+        },
+        "matches_to_play_display": {
+            "round_name": "Nom de la ronde",
+            "match": "Matchs à jouer",
         },
     }
 
     format_line_display = {
         "tournaments_display": "{0:^8}{1:17}{2:17}{3:17}{4:^8}{6:15}{8:30}",
-        "rounds_display": "{0:^8}{1:17}{2:20}{3:20}",
+        "rounds_display": "{0:^8}{1:17}{2:25}{3:25}",
         "matches_display": "{0:^8}{1:20}{2:30}{3:30}",
+        "matches_to_play_display": "{0:^8}{1:20}{2:30}",
     }
     title_display = {
         "tournaments_display": "Liste des tournois",
         "rounds_display": "Liste des rondes du tournoi",
         "matches_display": "Liste des matchs du tournoi",
+        "matches_to_play_display": "Liste des matchs à jouer",
     }
 
     def __init__(self):
         super().__init__("tournaments")
+
+    def message(self, message):
+        print(message)
 
     def input_tournament(self):
         data = {}
@@ -72,3 +80,12 @@ class TournamentView(Views):
             tournament_players_set.add(self.id_choice(id_players_list, title=""))
 
         return list(tournament_players_set)
+
+    def input_result(self, first_player, match):
+
+        while True:
+            entry = input(
+                f"Dans le match {match}, merci de saisir le résultat de {first_player} : "
+            )
+            if entry in ["V", "E", "P"]:
+                return entry

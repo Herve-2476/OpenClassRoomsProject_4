@@ -27,9 +27,24 @@ class Tournaments:
         self.players_list = players_list
         self.description = description
 
+        self.state = None
+
+    def record_match(self, match, score):
+        if score == "V":
+            match.add_score(1, 0)
+        elif score == "E":
+            match.add_score(0.5, 0.5)
+        else:
+            match.add_score(0, 1)
+
+    def start_round(self):
+        self.state == "round_start"
+        return self.rounds_list[-1].start_round()
+
     @property
     def serialized(self):
         tournament_dict = dict(self.__dict__)
+        del tournament_dict["state"]
         tournament_dict["rounds_list"] = [
             round.serialized for round in self.rounds_list
         ]
@@ -64,13 +79,16 @@ class Tournaments:
     def last_round_analyze(self):
 
         if len(self.rounds_list) == self.rounds_number and self.is_round_end:
+            self.state = "tournament_over"
             return "Il n'y a plus de rondes à jouer dans ce tournoi"
 
         elif not self.is_round_start:
-            print((f"La ronde {self.rounds_list[-1].name} est à jouer"))
+            self.state = "round_not_start"
+            return f"La ronde {self.rounds_list[-1].name} est à jouer"
 
         else:
-            print("La ronde {self.rounds_list[-1].name} se joue actuellement")
+            self.state = "round_start"
+            return f"La ronde {self.rounds_list[-1].name} se joue actuellement"
 
     @property
     def is_round_start(self):

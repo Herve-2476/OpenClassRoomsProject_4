@@ -11,6 +11,7 @@ class ApplicationsControllers:
     def run(self):
         main_menu = MenuController("main_menu")
         tournament_menu = MenuController("tournament_menu")
+        round_menu = MenuController("round_menu")
         db = Models()
         players_controller = PlayersController(db)
         tournaments_controller = TournamentsController(db, players_controller)
@@ -69,12 +70,25 @@ class ApplicationsControllers:
                         )
 
                     elif tournament_menu.choice == 6:
-                        tournaments_controller.display_tournament_macthes_list(
+                        tournaments_controller.display_tournament_matches_list(
                             display_name="matches_display"
                         )
 
                     elif tournament_menu.choice == 7:
-                        tournaments_controller.control_round_selection()
+                        if tournaments_controller.control_round_selection():
+                            while True:
+                                round_menu.display()
+                                if round_menu.choice == 1:
+                                    tournaments_controller.start_round()
+
+                                elif round_menu.choice == 2:
+                                    tournaments_controller.end_round()
+
+                                elif round_menu.choice == 3:
+                                    tournament_menu.view.clear_console(
+                                        tournaments_controller.name_selected_tournament
+                                    )
+                                    break
 
                     elif tournament_menu.choice == 8:
                         tournament_menu.view.clear_console()

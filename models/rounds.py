@@ -42,12 +42,12 @@ class Rounds:
             return return_list
 
     def start_round(self):
-        self.start_time_round = datetime.datetime.today()
-        print("start at", self.end_time_round.strftime("%Y-%m-%d %H:%M:%S"))
+        self.start_time_round = datetime.datetime.today().strftime("%Y-%m-%d %H:%M")
+        return f"Ronde {self.name} commencée le {self.start_time_round}"
 
     def end_round(self):
-        self.end_time_round = datetime.datetime.today()
-        print("end at", self.end_time_round.strftime("%Y-%m-%d %H:%M:%S"))
+        self.end_time_round = datetime.datetime.today().strftime("%Y-%m-%d %H:%M")
+        print("end at", self.end_time_round)
 
     def input_results(self, result_list):
 
