@@ -63,27 +63,28 @@ class Tournaments:
 
     def last_round_analyze(self):
 
-        if len(self.rounds_list) >= self.rounds_number and self.is_round_end():
+        if len(self.rounds_list) == self.rounds_number and self.is_round_end:
             return "Il n'y a plus de rondes à jouer dans ce tournoi"
 
-        elif self.rounds_list:
-            if self.is_round_start():
-                return matches_to_play_list
-            else:
-                pass
+        elif not self.is_round_start:
+            print((f"La ronde {self.rounds_list[-1].name} est à jouer"))
 
         else:
-            self.first_round_generation()
-
-        return
+            print("La ronde {self.rounds_list[-1].name} se joue actuellement")
 
     @property
     def is_round_start(self):
-        round = self.rounds_list[-1]
+        if self.rounds_list[-1].start_time_round is None:
+            return False
+        return True
 
     @property
     def is_round_end(self):
-        pass
+        """a round is end if the end time is not None,
+        and the end time is automatically fill when all the score are entered"""
+        if self.rounds_list[-1].end_time_round is None:
+            return False
+        return True
 
     def ranking_players_after_round(self):
 

@@ -34,7 +34,9 @@ class PlayersController:
 
     def modify_player(self):
         self.player_view.clear_console()
-        id_list = self.display_players_list(order="ordre Alphabétique")
+        id_list = self.display_players_list(
+            order="ordre Alphabétique", display_name="players_display"
+        )
         while True:
             id_choice = self.player_view.id_choice(id_list)
             if id_choice in id_list:

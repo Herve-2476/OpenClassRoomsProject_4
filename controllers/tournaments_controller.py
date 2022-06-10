@@ -27,6 +27,7 @@ class TournamentsController:
     def control_round_selection(self):
         """select the last round to play (if it exist) of the selected tournament"""
         self.tournament.last_round_analyze()
+        assert 1 == 2
 
     def control_tournament_selection(self):
         """if no tournament selected, the last input tournament is selected if it exist"""
@@ -101,7 +102,7 @@ class TournamentsController:
                 break
 
         tournament = {
-            "name": "tournoi_2",
+            "name": "tournoi_3",
             "location": "bordeaux",
             "date": "01/01/2022",
             "players_list": [1, 15, 3, 4, 6, 7, 8, 9],
@@ -164,10 +165,13 @@ class TournamentsController:
 
                 matches_tournament_list.append(
                     {
+                        "round_name": round.name,
+                        "first_player": first_player + ", " + result_first_player,
+                        "second_player": second_player + ", " + result_second_player,
                         "match": (
                             first_player + ", " + result_first_player,
                             second_player + ", " + result_second_player,
-                        )
+                        ),
                     }
                 )
 

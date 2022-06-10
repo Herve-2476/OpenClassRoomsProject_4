@@ -20,14 +20,17 @@ class TournamentView(Views):
             "end_time_round": "Fin de la ronde",
         },
         "matches_display": {
-            "match": "Détail du match",
+            "round_name": "Nom de la ronde",
+            "first_player": "Nom Prénom, Score",
+            "second_player": "Nom Prénom, Score",
+            "match": "('Nom Prénom, Score','Nom Prénom, Score')",
         },
     }
 
     format_line_display = {
         "tournaments_display": "{0:^8}{1:17}{2:17}{3:17}{4:^8}{6:15}{8:30}",
         "rounds_display": "{0:^8}{1:17}{2:20}{3:20}",
-        "matches_display": "{0:^8}{1:30}",
+        "matches_display": "{0:^8}{1:20}{2:30}{3:30}",
     }
     title_display = {
         "tournaments_display": "Liste des tournois",
