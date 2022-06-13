@@ -4,6 +4,7 @@ from models.tournaments import Tournaments
 from models.rounds import Rounds
 from models.matches import Matches
 from models.players import Players
+import random
 
 
 class TournamentsController:
@@ -24,9 +25,19 @@ class TournamentsController:
         # self.table.truncate()
         # self.table.remove(doc_ids=[4])
 
+    def players_instantiation(self, players_list):
+        self.players_dict = {}
+        for id_player in players_list:
+            self.players_dict[id_player] = Players(
+                id=id, **self.id_player_to_dict_player(id_player)
+            )
+        return self.players_dict.values()
+
     def control_tournament_selection(self):
-        """if no tournament selected, the last input tournament is selected if it exist"""
-        if not self.tournament:
+        """Menu Tournament = if no tournament selected, the last input tournament
+        is selected if it exists"""
+
+        if self.tournament is None:
             id_tournaments_list = self.display_tournaments_list(
                 display_name="tournaments_display"
             )
@@ -53,12 +64,33 @@ class TournamentsController:
     def select_tournament(self, id_choice):
         self.tournament = self.instantiation(id_choice)
 
+    def id_to_instance_player(self, rounds_list):
+        for round in rounds_list:
+            for match in round["matches_list"]:
+                match[0][0] = self.players_dict[match[0][0]]
+                match[1][0] = self.players_dict[match[1][0]]
+        return rounds_list
+
     def instantiation(self, id_choice=None, tournament_dict=None):
         if not tournament_dict:
             tournament_dict = self.db.get_id(self.table, id_choice)
+            print(tournament_dict)
+
+        # id_players to object_players
+        tournament_dict["players_list"] = self.players_instantiation(
+            tournament_dict["players_list"]
+        )
+
+        tournament_dict["rounds_list"] = self.id_to_instance_player(
+            tournament_dict["rounds_list"]
+        )
+
         tournament = Tournaments(**tournament_dict)
 
         tournament.rounds_list = [Rounds(**round) for round in tournament.rounds_list]
+        print(tournament.rounds_list[-1].matches_list[0].match)
+        assert 1 == 2
+
         if False:
             print(tournament.rounds_list)
 
@@ -125,8 +157,8 @@ class TournamentsController:
     def display_tournament_players_list(self, order, **args):
         self.tournament_view.clear_console(self.name_selected_tournament)
         players_tournament_list = []
-        for id_player in self.tournament.players_list:
-            players_tournament_list.append(self.id_player_to_dict_player(id_player))
+        for player in self.tournament.players_list:
+            players_tournament_list.append(player.serialized_player())
 
         players_tournament_list.sort(key=lambda x: x["ranking"])
         if order == "ordre Alphabétique":
@@ -147,8 +179,11 @@ class TournamentsController:
     def display_tournament_matches_list(self, display_name="", **args):
         self.tournament_view.clear_console(self.name_selected_tournament)
         matches_tournament_list = []
-        for round in self.tournament.rounds_list:
+        for round_number, round in enumerate(self.tournament.rounds_list):
+            print(round.matches_list)
+
             for match in round.matches_list:
+                print(match.match)
                 first_player = (
                     match.match[0][0].last_name + " " + match.match[0][0].first_name
                 )
@@ -161,24 +196,25 @@ class TournamentsController:
                     matches_tournament_list.append(
                         {
                             "round_name": round.name,
-                            "first_player": first_player + ", " + result_first_player,
-                            "second_player": second_player
-                            + ", "
-                            + result_second_player,
-                            "match": (
-                                first_player + ", " + result_first_player,
-                                second_player + ", " + result_second_player,
-                            ),
+                            "first_player": first_player,
+                            "result_first_player": result_first_player,
+                            "second_player": second_player,
+                            "result_second_player": result_second_player,
                         }
                     )
 
                 else:
-                    matches_tournament_list.append(
-                        {
-                            "round_name": round.name,
-                            "match": "(" + first_player + ", " + second_player + ")",
-                        }
-                    )
+                    if round_number == len(self.tournament.rounds_list) - 1:
+                        matches_tournament_list.append(
+                            {
+                                "round_name": round.name,
+                                "match": "("
+                                + first_player
+                                + ", "
+                                + second_player
+                                + ")",
+                            }
+                        )
 
         self.tournament_view.display_list(
             matches_tournament_list, display_name=display_name, **args
@@ -217,8 +253,8 @@ class TournamentsController:
             self.tournament_view.message(
                 "\nSaisie des résultats des matchs de la ronde (V = Victoire, E = Egalité, P = Perdu)\n"
             )
-
-            for match in round.matches_list[-1]:
+            round = self.tournament.rounds_list[-1]
+            for match in round.matches_list:
                 first_player = (
                     match.match[0][0].last_name + " " + match.match[0][0].first_name
                 )
@@ -227,7 +263,8 @@ class TournamentsController:
                 )
                 match_str = "(" + first_player + ", " + second_player + ")"
                 while True:
-                    score = self.tournament_view.input_result(first_player, match_str)
+                    # score = self.tournament_view.input_result(first_player, match_str)
+                    score = ["V", "E", "P"][random.randint(0, 2)]
                     if score in [
                         "V",
                         "E",
@@ -237,7 +274,10 @@ class TournamentsController:
                 self.tournament.record_match(match, score)
 
             self.tournament.state == "round_end"
-            ###reste à faire = générer la prochaine ronde si possible
+            if len(self.tournament.rounds_list) < self.tournament.rounds_number:
+                self.tournament.following_round_generation()
+
+            self.tournament_view.clear_console(self.name_selected_tournament)
 
         else:
             self.tournament_view.clear_console(self.name_selected_tournament)

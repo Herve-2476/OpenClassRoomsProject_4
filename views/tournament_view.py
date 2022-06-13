@@ -21,8 +21,10 @@ class TournamentView(Views):
         },
         "matches_display": {
             "round_name": "Nom de la ronde",
-            "first_player": "Nom Prénom, Score",
-            "second_player": "Nom Prénom, Score",
+            "first_player": "Nom Prénom",
+            "result_first_player": "Score",
+            "second_player": "Nom Prénom",
+            "result_second_player": "Score",
         },
         "matches_to_play_display": {
             "round_name": "Nom de la ronde",
@@ -33,7 +35,7 @@ class TournamentView(Views):
     format_line_display = {
         "tournaments_display": "{0:^8}{1:17}{2:17}{3:17}{4:^8}{6:15}{8:30}",
         "rounds_display": "{0:^8}{1:17}{2:25}{3:25}",
-        "matches_display": "{0:^8}{1:20}{2:30}{3:30}",
+        "matches_display": "{0:^8}{1:^20}{3:^7}{2:25}{5:^7}{4:25}",
         "matches_to_play_display": "{0:^8}{1:20}{2:30}",
     }
     title_display = {

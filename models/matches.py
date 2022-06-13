@@ -10,19 +10,14 @@ class Matches:
         result_first_player=None,
         result_second_player=None,
     ):
-        db = Models()
-        args_first_player = db.get_id(db.table("players"), first_player)
-        args_first_player["id"] = first_player
-        args_second_player = db.get_id(db.table("players"), second_player)
-        args_second_player["id"] = second_player
 
         self.match = [
             [
-                Players(**args_first_player),
+                first_player,
                 result_first_player,
             ],
             [
-                Players(**args_second_player),
+                second_player,
                 result_second_player,
             ],
         ]

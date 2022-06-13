@@ -83,6 +83,7 @@ class ApplicationsControllers:
 
                                 elif round_menu.choice == 2:
                                     tournaments_controller.end_round()
+                                    break
 
                                 elif round_menu.choice == 3:
                                     tournament_menu.view.clear_console(
