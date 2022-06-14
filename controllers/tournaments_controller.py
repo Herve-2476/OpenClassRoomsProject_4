@@ -4,7 +4,8 @@ from models.tournaments import Tournaments
 from models.rounds import Rounds
 from models.matches import Matches
 from models.players import Players
-import random
+
+# import random
 
 
 class TournamentsController:
@@ -18,7 +19,7 @@ class TournamentsController:
         self.name_selected_tournament = ""
         self.players_controller = players_controller
         self.date_regex = (
-            "(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d"
+            r"(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d"
         )
         self.tournament = None
 
@@ -276,16 +277,18 @@ class TournamentsController:
             )
             round = self.tournament.rounds_list[-1]
             for match in round.matches_list:
+
                 first_player = (
                     match.match[0][0].last_name + " " + match.match[0][0].first_name
                 )
                 second_player = (
                     match.match[1][0].last_name + " " + match.match[1][0].first_name
                 )
+
                 match_str = "(" + first_player + ", " + second_player + ")"
                 while True:
-                    # score = self.tournament_view.input_result(first_player, match_str)
-                    score = ["V", "E", "P"][random.randint(0, 2)]
+                    score = self.tournament_view.input_result(first_player, match_str)
+                    # score = ["V", "E", "P"][random.randint(0, 2)]
                     if score in [
                         "V",
                         "E",

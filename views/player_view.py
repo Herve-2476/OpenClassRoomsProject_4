@@ -31,10 +31,10 @@ class PlayerView(Views):
 
             if (
                 re.match(
-                    "(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d",
+                    r"(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d",
                     entry,
                 )
-                != None
+                is not None
             ):
                 player["birth_date"] = entry
                 break
@@ -49,10 +49,10 @@ class PlayerView(Views):
             entry = input("Classement : ")
             if (
                 re.match(
-                    "\d+",
+                    r"\d+",
                     entry,
                 )
-                != None
+                is not None
             ):
                 player["ranking"] = int(entry)
                 break
@@ -77,10 +77,10 @@ class PlayerView(Views):
                 break
             elif (
                 re.match(
-                    "(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d",
+                    r"(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d",
                     entry,
                 )
-                != None
+                is not None
             ):
                 player["birth_date"] = entry
                 break
@@ -99,10 +99,10 @@ class PlayerView(Views):
                 break
             elif (
                 re.match(
-                    "\d+",
+                    r"\d+",
                     entry,
                 )
-                != None
+                is not None
             ):
                 player["ranking"] = int(entry)
                 break

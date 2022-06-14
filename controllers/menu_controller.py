@@ -40,5 +40,5 @@ class MenuController:
             try:
                 if 1 <= self.choice <= len(self.menu_list):
                     break
-            except:
+            finally:
                 pass

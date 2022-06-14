@@ -1,4 +1,3 @@
-import os
 from views.views import Views
 
 

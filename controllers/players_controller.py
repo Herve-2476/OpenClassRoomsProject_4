@@ -8,7 +8,7 @@ class PlayersController:
         self.db = db
         self.table = db.table("players")
         self.date_regex = (
-            "(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d"
+            r"(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d"
         )
 
     def display_players_list(self, order="", **args):
