@@ -30,6 +30,11 @@ class TournamentView(Views):
             "round_name": "Nom de la ronde",
             "match": "Matchs à jouer",
         },
+        "tournament_ranking_display": {
+            "score": "Score",
+            "name": "Nom Prénom",
+            "ranking": "Classement",
+        },
     }
 
     format_line_display = {
@@ -37,12 +42,14 @@ class TournamentView(Views):
         "rounds_display": "{0:^8}{1:17}{2:25}{3:25}",
         "matches_display": "{0:^8}{1:^20}{3:^7}{2:25}{5:^7}{4:25}",
         "matches_to_play_display": "{0:^8}{1:20}{2:30}",
+        "tournament_ranking_display": "{0:^8}{1:^7}{2:25}{3:^10}",
     }
     title_display = {
         "tournaments_display": "Liste des tournois",
         "rounds_display": "Liste des rondes du tournoi",
         "matches_display": "Liste des matchs du tournoi",
         "matches_to_play_display": "Liste des matchs à jouer",
+        "tournament_ranking_display": "Classement des joueurs dans le tournoi",
     }
 
     def __init__(self):

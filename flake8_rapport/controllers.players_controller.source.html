@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>controllers\players_controller.py - flake8 annotated source</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <h1>
+            <a href="controllers.players_controller.report.html">
+               <img src="back.svg" alt="&#x2B05;">
+               controllers\players_controller.py source
+            </a>
+         </h1>
+
+         <div id="doc">
+            <div id="l1"
+               class="code sev- "><tt><i>1</i> <span class="kn">import</span> <span class="nn">re</span></tt>
+            </div>
+            <div id="l2"
+               class="code sev- "><tt><i>2</i> <span class="kn">from</span> <span class="nn">views.player_view</span> <span class="kn">import</span> <span class="n">PlayerView</span></tt>
+            </div>
+            <div id="l3"
+               class="code sev- "><tt><i>3</i> &nbsp;</tt>
+            </div>
+            <div id="l4"
+               class="code sev- "><tt><i>4</i> &nbsp;</tt>
+            </div>
+            <div id="l5"
+               class="code sev- "><tt><i>5</i> <span class="k">class</span> <span class="nc">PlayersController</span><span class="p">:</span></tt>
+            </div>
+            <div id="l6"
+               class="code sev- "><tt><i>6</i>     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">):</span></tt>
+            </div>
+            <div id="l7"
+               class="code sev- "><tt><i>7</i>         <span class="bp">self</span><span class="o">.</span><span class="n">player_view</span> <span class="o">=</span> <span class="n">PlayerView</span><span class="p">()</span></tt>
+            </div>
+            <div id="l8"
+               class="code sev- "><tt><i>8</i>         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span></tt>
+            </div>
+            <div id="l9"
+               class="code sev- "><tt><i>9</i>         <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s2">&quot;players&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l10"
+               class="code sev- "><tt><i>10</i>         <span class="bp">self</span><span class="o">.</span><span class="n">date_regex</span> <span class="o">=</span> <span class="p">(</span></tt>
+            </div>
+            <div id="l11"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        W605
+                     </span>
+                     Invalid escape sequence '\/' (in 2 places)</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        W605
+                     </span>
+                     Invalid escape sequence '\d' (in 3 places)</li>
+               
+               </ul><tt><i>11</i>             <span class="s2">&quot;(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d&quot;</span></tt>
+            </div>
+            <div id="l12"
+               class="code sev- "><tt><i>12</i>         <span class="p">)</span></tt>
+            </div>
+            <div id="l13"
+               class="code sev- "><tt><i>13</i> &nbsp;</tt>
+            </div>
+            <div id="l14"
+               class="code sev- "><tt><i>14</i>     <span class="k">def</span> <span class="nf">display_players_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">):</span></tt>
+            </div>
+            <div id="l15"
+               class="code sev- "><tt><i>15</i>         <span class="bp">self</span><span class="o">.</span><span class="n">player_view</span><span class="o">.</span><span class="n">clear_console</span><span class="p">()</span></tt>
+            </div>
+            <div id="l16"
+               class="code sev- "><tt><i>16</i>         <span class="n">table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">load_all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">)</span></tt>
+            </div>
+            <div id="l17"
+               class="code sev- "><tt><i>17</i>         <span class="n">table</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;ranking&quot;</span><span class="p">])</span></tt>
+            </div>
+            <div id="l18"
+               class="code sev- "><tt><i>18</i>         <span class="k">if</span> <span class="n">order</span> <span class="o">==</span> <span class="s2">&quot;ordre Alphabétique&quot;</span><span class="p">:</span></tt>
+            </div>
+            <div id="l19"
+               class="code sev- "><tt><i>19</i>             <span class="n">table</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;first_name&quot;</span><span class="p">])</span></tt>
+            </div>
+            <div id="l20"
+               class="code sev- "><tt><i>20</i>             <span class="n">table</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;last_name&quot;</span><span class="p">])</span></tt>
+            </div>
+            <div id="l21"
+               class="code sev- "><tt><i>21</i> &nbsp;</tt>
+            </div>
+            <div id="l22"
+               class="code sev- "><tt><i>22</i>         <span class="bp">self</span><span class="o">.</span><span class="n">player_view</span><span class="o">.</span><span class="n">display_db_list</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span></tt>
+            </div>
+            <div id="l23"
+               class="code sev- "><tt><i>23</i>         <span class="k">return</span> <span class="p">[</span><span class="n">record</span><span class="o">.</span><span class="n">doc_id</span> <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">table</span><span class="p">]</span></tt>
+            </div>
+            <div id="l24"
+               class="code sev- "><tt><i>24</i> &nbsp;</tt>
+            </div>
+            <div id="l25"
+               class="code sev- "><tt><i>25</i>     <span class="k">def</span> <span class="nf">add_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l26"
+               class="code sev- "><tt><i>26</i>         <span class="bp">self</span><span class="o">.</span><span class="n">player_view</span><span class="o">.</span><span class="n">clear_console</span><span class="p">()</span></tt>
+            </div>
+            <div id="l27"
+               class="code sev- "><tt><i>27</i>         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span></tt>
+            </div>
+            <div id="l28"
+               class="code sev- "><tt><i>28</i>             <span class="n">player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_view</span><span class="o">.</span><span class="n">input_player</span><span class="p">()</span></tt>
+            </div>
+            <div id="l29"
+               class="code sev- "><tt><i>29</i>             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_data_player</span><span class="p">(</span><span class="n">player</span><span class="p">):</span></tt>
+            </div>
+            <div id="l30"
+               class="code sev- "><tt><i>30</i>                 <span class="k">break</span></tt>
+            </div>
+            <div id="l31"
+               class="code sev- "><tt><i>31</i> &nbsp;</tt>
+            </div>
+            <div id="l32"
+               class="code sev- "><tt><i>32</i>         <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">player</span><span class="p">)</span></tt>
+            </div>
+            <div id="l33"
+               class="code sev- "><tt><i>33</i>         <span class="bp">self</span><span class="o">.</span><span class="n">player_view</span><span class="o">.</span><span class="n">clear_console</span><span class="p">()</span></tt>
+            </div>
+            <div id="l34"
+               class="code sev- "><tt><i>34</i> &nbsp;</tt>
+            </div>
+            <div id="l35"
+               class="code sev- "><tt><i>35</i>     <span class="k">def</span> <span class="nf">modify_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l36"
+               class="code sev- "><tt><i>36</i>         <span class="bp">self</span><span class="o">.</span><span class="n">player_view</span><span class="o">.</span><span class="n">clear_console</span><span class="p">()</span></tt>
+            </div>
+            <div id="l37"
+               class="code sev- "><tt><i>37</i>         <span class="n">id_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_players_list</span><span class="p">(</span></tt>
+            </div>
+            <div id="l38"
+               class="code sev- "><tt><i>38</i>             <span class="n">order</span><span class="o">=</span><span class="s2">&quot;ordre Alphabétique&quot;</span><span class="p">,</span> <span class="n">display_name</span><span class="o">=</span><span class="s2">&quot;players_display&quot;</span></tt>
+            </div>
+            <div id="l39"
+               class="code sev- "><tt><i>39</i>         <span class="p">)</span></tt>
+            </div>
+            <div id="l40"
+               class="code sev- "><tt><i>40</i>         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span></tt>
+            </div>
+            <div id="l41"
+               class="code sev- "><tt><i>41</i>             <span class="n">id_choice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_view</span><span class="o">.</span><span class="n">id_choice</span><span class="p">(</span><span class="n">id_list</span><span class="p">)</span></tt>
+            </div>
+            <div id="l42"
+               class="code sev- "><tt><i>42</i>             <span class="k">if</span> <span class="n">id_choice</span> <span class="ow">in</span> <span class="n">id_list</span><span class="p">:</span></tt>
+            </div>
+            <div id="l43"
+               class="code sev- "><tt><i>43</i>                 <span class="k">break</span></tt>
+            </div>
+            <div id="l44"
+               class="code sev- "><tt><i>44</i>         <span class="n">player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">id_choice</span><span class="p">)</span></tt>
+            </div>
+            <div id="l45"
+               class="code sev- "><tt><i>45</i> &nbsp;</tt>
+            </div>
+            <div id="l46"
+               class="code sev- "><tt><i>46</i>         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span></tt>
+            </div>
+            <div id="l47"
+               class="code sev- "><tt><i>47</i>             <span class="n">player</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_view</span><span class="o">.</span><span class="n">modify_player</span><span class="p">(</span><span class="n">player</span><span class="p">)</span></tt>
+            </div>
+            <div id="l48"
+               class="code sev- "><tt><i>48</i>             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">control_data_player</span><span class="p">(</span><span class="n">player</span><span class="p">):</span></tt>
+            </div>
+            <div id="l49"
+               class="code sev- "><tt><i>49</i>                 <span class="k">break</span></tt>
+            </div>
+            <div id="l50"
+               class="code sev- "><tt><i>50</i>         <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">update_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">,</span> <span class="n">id_choice</span><span class="p">,</span> <span class="n">player</span><span class="p">)</span></tt>
+            </div>
+            <div id="l51"
+               class="code sev- "><tt><i>51</i>         <span class="bp">self</span><span class="o">.</span><span class="n">player_view</span><span class="o">.</span><span class="n">clear_console</span><span class="p">()</span></tt>
+            </div>
+            <div id="l52"
+               class="code sev- "><tt><i>52</i> &nbsp;</tt>
+            </div>
+            <div id="l53"
+               class="code sev- "><tt><i>53</i>     <span class="k">def</span> <span class="nf">control_data_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span></tt>
+            </div>
+            <div id="l54"
+               class="code sev- "><tt><i>54</i>         <span class="n">control</span> <span class="o">=</span> <span class="p">[</span></tt>
+            </div>
+            <div id="l55"
+               class="code sev- "><tt><i>55</i>             <span class="nb">isinstance</span><span class="p">(</span><span class="n">player</span><span class="p">[</span><span class="s2">&quot;last_name&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">),</span></tt>
+            </div>
+            <div id="l56"
+               class="code sev- "><tt><i>56</i>             <span class="nb">isinstance</span><span class="p">(</span><span class="n">player</span><span class="p">[</span><span class="s2">&quot;first_name&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">),</span></tt>
+            </div>
+            <div id="l57"
+               class="code sev- "><tt><i>57</i>             <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">date_regex</span><span class="p">,</span> <span class="n">player</span><span class="p">[</span><span class="s2">&quot;birth_date&quot;</span><span class="p">]),</span></tt>
+            </div>
+            <div id="l58"
+               class="code sev- "><tt><i>58</i>             <span class="n">player</span><span class="p">[</span><span class="s2">&quot;gender&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">],</span></tt>
+            </div>
+            <div id="l59"
+               class="code sev- "><tt><i>59</i>             <span class="nb">isinstance</span><span class="p">(</span><span class="n">player</span><span class="p">[</span><span class="s2">&quot;ranking&quot;</span><span class="p">],</span> <span class="nb">int</span><span class="p">),</span></tt>
+            </div>
+            <div id="l60"
+               class="code sev- "><tt><i>60</i>         <span class="p">]</span></tt>
+            </div>
+            <div id="l61"
+               class="code sev- "><tt><i>61</i> &nbsp;</tt>
+            </div>
+            <div id="l62"
+               class="code sev- "><tt><i>62</i>         <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">control</span><span class="p">)</span></tt>
+            </div>
+            <div id="l63"
+               class="code sev- "><tt><i>63</i> &nbsp;</tt>
+            </div>
+            <div id="l64"
+               class="code sev- "><tt><i>64</i>     <span class="k">def</span> <span class="nf">matches_to_play_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l65"
+               class="code sev- "><tt><i>65</i>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tournament</span><span class="o">.</span><span class="n">rounds_list</span><span class="p">:</span></tt>
+            </div>
+            <div id="l66"
+               class="code sev- "><tt><i>66</i>             <span class="k">pass</span></tt>
+            </div>
+            <div id="l67"
+               class="code sev- "><tt><i>67</i>         <span class="k">else</span><span class="p">:</span></tt>
+            </div>
+            <div id="l68"
+               class="code sev- "><tt><i>68</i>             <span class="bp">self</span><span class="o">.</span><span class="n">tournament</span><span class="o">.</span><span class="n">first_round_generation</span><span class="p">()</span></tt>
+            </div>
+            
+         </div>
+      </div>
+   </body>
+</html>

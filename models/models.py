@@ -14,8 +14,8 @@ class Models(TinyDB):
     def get_id(self, table, id):
         return table.get(doc_id=id)
 
-    def update_id(self, table, id, player):
-        return table.update(player, doc_ids=[id])
+    def update_id(self, table, id, table_object):
+        return table.update(table_object, doc_ids=[id])
 
     def save(self):
         pass

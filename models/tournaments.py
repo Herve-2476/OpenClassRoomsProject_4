@@ -53,7 +53,7 @@ class Tournaments:
         tournament_dict["rounds_list"] = [
             round.serialized for round in self.rounds_list
         ]
-        print(self.players_list)
+
         tournament_dict["players_list"] = [player.id for player in self.players_list]
 
         return tournament_dict
@@ -103,9 +103,14 @@ class Tournaments:
                 player_two = match.match[1][0]
                 result_one = match.match[0][1]
                 result_two = match.match[1][1]
-                self.matches_already_played_list.append((player_one, player_two))
-                players_dict[player_one] = players_dict.get(player_one, 0) + result_one
-                players_dict[player_two] = players_dict.get(player_two, 0) + result_two
+                if result_one is not None:
+                    self.matches_already_played_list.append((player_one, player_two))
+                    players_dict[player_one] = (
+                        players_dict.get(player_one, 0) + result_one
+                    )
+                    players_dict[player_two] = (
+                        players_dict.get(player_two, 0) + result_two
+                    )
         ranked_players_list = []
 
         for key, value in players_dict.items():
@@ -115,10 +120,10 @@ class Tournaments:
         ranked_players_point_list = list(ranked_players_list)
         ranked_players_list = [player[2] for player in ranked_players_list]
 
-        return ranked_players_list
+        return ranked_players_list, ranked_players_point_list
 
     def following_round_generation(self):
-        ranked_players_list = self.ranking_players_after_round()
+        ranked_players_list, _ = self.ranking_players_after_round()
         players_pair_list = []
         while ranked_players_list:
             j = 1

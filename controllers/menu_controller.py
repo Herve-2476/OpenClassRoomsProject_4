@@ -19,6 +19,7 @@ class MenuController:
             "Liste de tous les joueurs du tournoi par classement",
             "Liste de tous les tours d'un tournoi",
             "Liste de tous les matchs d'un tournoi",
+            "Classement des joueurs dans le tournoi",
             "Menu round",
             "Menu principal",
         ],

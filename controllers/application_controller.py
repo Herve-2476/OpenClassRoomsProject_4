@@ -9,90 +9,109 @@ class ApplicationsControllers:
         self.run()
 
     def run(self):
-        main_menu = MenuController("main_menu")
-        tournament_menu = MenuController("tournament_menu")
-        round_menu = MenuController("round_menu")
-        db = Models()
-        players_controller = PlayersController(db)
-        tournaments_controller = TournamentsController(db, players_controller)
-        main_menu.view.clear_console()
+        self.main_menu = MenuController("main_menu")
+        self.tournament_menu = MenuController("tournament_menu")
+        self.round_menu = MenuController("round_menu")
+        self.db = Models()
+        self.players_controller = PlayersController(self.db)
+        self.tournaments_controller = TournamentsController(
+            self.db, self.players_controller
+        )
+        self.main_menu.view.clear_console()
+        self.run_main_menu()
+
+    def run_main_menu(self):
         while True:
-            main_menu.display()
-            if main_menu.choice == 1:
-                players_controller.display_players_list(
+            self.main_menu.display()
+            if self.main_menu.choice == 1:
+                self.players_controller.display_players_list(
                     id=False, order="ordre Alphabétique", display_name="players_display"
                 )
 
-            elif main_menu.choice == 2:
-                players_controller.display_players_list(
+            elif self.main_menu.choice == 2:
+                self.players_controller.display_players_list(
                     id=False, order="classement", display_name="players_display"
                 )
 
-            elif main_menu.choice == 3:
-                tournaments_controller.display_tournaments_list(
+            elif self.main_menu.choice == 3:
+                self.tournaments_controller.display_tournaments_list(
                     id=False, display_name="tournaments_display"
                 )
 
-            elif main_menu.choice == 4:
-                players_controller.add_player()
+            elif self.main_menu.choice == 4:
+                self.players_controller.add_player()
 
-            elif main_menu.choice == 5:
-                players_controller.modify_player()
+            elif self.main_menu.choice == 5:
+                self.players_controller.modify_player()
 
-            elif main_menu.choice == 6:
+            elif self.main_menu.choice == 6:
 
-                tournaments_controller.control_tournament_selection()
+                self.tournaments_controller.control_tournament_selection()
 
-                main_menu.view.clear_console(
-                    tournaments_controller.name_selected_tournament
+                self.main_menu.view.clear_console(
+                    self.tournaments_controller.name_selected_tournament
                 )
-                while True:
-                    tournament_menu.display()
-                    if tournament_menu.choice == 1:
-                        tournaments_controller.load_tournament()
+                self.run_tournament_menu()
 
-                    elif tournament_menu.choice == 2:
-                        tournaments_controller.add_tournament()
-
-                    elif tournament_menu.choice == 3:
-                        tournaments_controller.display_tournament_players_list(
-                            order="ordre Alphabétique", display_name="players_display"
-                        )
-
-                    elif tournament_menu.choice == 4:
-                        tournaments_controller.display_tournament_players_list(
-                            order="classement", display_name="players_display"
-                        )
-
-                    elif tournament_menu.choice == 5:
-                        tournaments_controller.display_tournament_rounds_list(
-                            display_name="rounds_display"
-                        )
-
-                    elif tournament_menu.choice == 6:
-                        tournaments_controller.display_tournament_matches_list(
-                            display_name="matches_display"
-                        )
-
-                    elif tournament_menu.choice == 7:
-                        if tournaments_controller.control_round_selection():
-                            while True:
-                                round_menu.display()
-                                if round_menu.choice == 1:
-                                    tournaments_controller.start_round()
-
-                                elif round_menu.choice == 2:
-                                    tournaments_controller.end_round()
-                                    break
-
-                                elif round_menu.choice == 3:
-                                    tournament_menu.view.clear_console(
-                                        tournaments_controller.name_selected_tournament
-                                    )
-                                    break
-
-                    elif tournament_menu.choice == 8:
-                        tournament_menu.view.clear_console()
-                        break
             else:
+                break
+
+    def run_tournament_menu(self):
+
+        while True:
+            self.tournament_menu.display()
+            if self.tournament_menu.choice == 1:
+                self.tournaments_controller.load_tournament()
+
+            elif self.tournament_menu.choice == 2:
+                self.tournaments_controller.add_tournament()
+
+            elif self.tournament_menu.choice == 3:
+                self.tournaments_controller.display_tournament_players_list(
+                    order="ordre Alphabétique", display_name="players_display"
+                )
+
+            elif self.tournament_menu.choice == 4:
+                self.tournaments_controller.display_tournament_players_list(
+                    order="classement", display_name="players_display"
+                )
+
+            elif self.tournament_menu.choice == 5:
+                self.tournaments_controller.display_tournament_rounds_list(
+                    display_name="rounds_display"
+                )
+
+            elif self.tournament_menu.choice == 6:
+                self.tournaments_controller.display_tournament_matches_list(
+                    display_name="matches_display"
+                )
+
+            elif self.tournament_menu.choice == 7:
+                self.tournaments_controller.display_tournament_ranking_players_list(
+                    display_name="tournament_ranking_display"
+                )
+
+            elif self.tournament_menu.choice == 8:
+
+                if self.tournaments_controller.control_round_selection():
+                    self.run_round_menu()
+
+            elif self.tournament_menu.choice == 9:
+                self.tournament_menu.view.clear_console()
+                break
+
+    def run_round_menu(self):
+        while True:
+            self.round_menu.display()
+            if self.round_menu.choice == 1:
+                self.tournaments_controller.start_round()
+
+            elif self.round_menu.choice == 2:
+                self.tournaments_controller.end_round()
+                break
+
+            elif self.round_menu.choice == 3:
+                self.tournament_menu.view.clear_console(
+                    self.tournaments_controller.name_selected_tournament
+                )
                 break

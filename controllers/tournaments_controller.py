@@ -23,7 +23,23 @@ class TournamentsController:
         self.tournament = None
 
         # self.table.truncate()
-        # self.table.remove(doc_ids=[4])
+        # for i in range(6, 11):
+        # self.table.remove(doc_ids=[i])
+
+    def display_tournament_ranking_players_list(self, **args):
+        _, ranked_players_point_list = self.tournament.ranking_players_after_round()
+        display_list = []
+
+        for point, ranking, player in ranked_players_point_list:
+            display_list.append(
+                {
+                    "score": float(point),
+                    "name": player.last_name + " " + player.first_name,
+                    "ranking": ranking,
+                }
+            )
+        self.tournament_view.clear_console(self.name_selected_tournament)
+        self.tournament_view.display_list(display_list, **args)
 
     def players_instantiation(self, players_list):
         self.players_dict = {}
@@ -75,7 +91,6 @@ class TournamentsController:
     def instantiation(self, id_choice=None, tournament_dict=None):
         if not tournament_dict:
             tournament_dict = self.db.get_id(self.table, id_choice)
-            print(tournament_dict)
 
         # id_players to object_players
         tournament_dict["players_list"] = self.players_instantiation(
@@ -108,27 +123,30 @@ class TournamentsController:
             tournament.name + " à " + tournament.location + " le " + tournament.date
         )
         self.tournament_view.clear_console(self.name_selected_tournament)
+        self.id_choice = id_choice
         return tournament
 
     def id_player_to_dict_player(self, id_player):
         return self.db.get_id(self.players_controller.table, id_player)
 
     def add_tournament(self):
-        while False:
-            tournament = self.tournament_view.input_tournament()
-            tournament["rounds_number"] = self.rounds_number
-            tournament["rounds_list"] = [{"name": "Round 1"}]
-            id_players_list = self.players_controller.display_players_list()
-            tournament[
+        while True:
+            tournament_dict = self.tournament_view.input_tournament()
+            tournament_dict["rounds_number"] = self.rounds_number
+            tournament_dict["rounds_list"] = []
+            id_players_list = self.players_controller.display_players_list(
+                display_name="players_display"
+            )
+            tournament_dict[
                 "players_list"
             ] = self.tournament_view.input_tournament_players_list(
                 id_players_list, self.players_number
             )
-            if self.control_data_tournament(tournament):
+            if self.control_data_tournament(tournament_dict):
                 break
-
+        """
         tournament_dict = {
-            "name": "tournoi_4",
+            "name": "tournoi_7",
             "location": "bordeaux",
             "date": "01/01/2022",
             "players_list": [1, 15, 3, 4, 6, 7, 8, 9],
@@ -137,13 +155,14 @@ class TournamentsController:
             "rounds_number": 4,
             "rounds_list": [],
         }
-
+        """
         self.tournament = self.instantiation(tournament_dict=tournament_dict)
         self.tournament.first_round_generation()
-        self.save()
+        self.db.insert(self.table, self.tournament.serialized)
 
     def save(self):
-        self.db.insert(self.table, self.tournament.serialized)
+
+        self.db.update_id(self.table, self.id_choice, self.tournament.serialized)
 
     def control_data_tournament(self, tournament):
 
@@ -243,6 +262,7 @@ class TournamentsController:
         if self.tournament.state == "round_not_start":
             self.tournament_view.message(self.tournament.start_round())
             self.tournament.state = "round_start"
+            self.save()
 
         elif self.tournament.state == "round_start":
             self.tournament_view.message(
@@ -277,7 +297,7 @@ class TournamentsController:
             self.tournament.end_round()
             if len(self.tournament.rounds_list) < self.tournament.rounds_number:
                 self.tournament.following_round_generation()
-
+            self.save()
             self.tournament_view.clear_console(self.name_selected_tournament)
 
         else:
