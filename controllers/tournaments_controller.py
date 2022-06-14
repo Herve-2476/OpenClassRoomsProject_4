@@ -27,11 +27,12 @@ class TournamentsController:
 
     def players_instantiation(self, players_list):
         self.players_dict = {}
+        print(players_list)
         for id_player in players_list:
             self.players_dict[id_player] = Players(
-                id=id, **self.id_player_to_dict_player(id_player)
+                id=id_player, **self.id_player_to_dict_player(id_player)
             )
-        return self.players_dict.values()
+        return list(self.players_dict.values())
 
     def control_tournament_selection(self):
         """Menu Tournament = if no tournament selected, the last input tournament
@@ -88,8 +89,6 @@ class TournamentsController:
         tournament = Tournaments(**tournament_dict)
 
         tournament.rounds_list = [Rounds(**round) for round in tournament.rounds_list]
-        print(tournament.rounds_list[-1].matches_list[0].match)
-        assert 1 == 2
 
         if False:
             print(tournament.rounds_list)
@@ -128,8 +127,8 @@ class TournamentsController:
             if self.control_data_tournament(tournament):
                 break
 
-        tournament = {
-            "name": "tournoi_3",
+        tournament_dict = {
+            "name": "tournoi_4",
             "location": "bordeaux",
             "date": "01/01/2022",
             "players_list": [1, 15, 3, 4, 6, 7, 8, 9],
@@ -139,8 +138,11 @@ class TournamentsController:
             "rounds_list": [],
         }
 
-        self.tournament = self.instantiation(tournament_dict=tournament)
+        self.tournament = self.instantiation(tournament_dict=tournament_dict)
         self.tournament.first_round_generation()
+        self.save()
+
+    def save(self):
         self.db.insert(self.table, self.tournament.serialized)
 
     def control_data_tournament(self, tournament):
@@ -180,10 +182,9 @@ class TournamentsController:
         self.tournament_view.clear_console(self.name_selected_tournament)
         matches_tournament_list = []
         for round_number, round in enumerate(self.tournament.rounds_list):
-            print(round.matches_list)
 
             for match in round.matches_list:
-                print(match.match)
+
                 first_player = (
                     match.match[0][0].last_name + " " + match.match[0][0].first_name
                 )
@@ -273,7 +274,7 @@ class TournamentsController:
                         break
                 self.tournament.record_match(match, score)
 
-            self.tournament.state == "round_end"
+            self.tournament.end_round()
             if len(self.tournament.rounds_list) < self.tournament.rounds_number:
                 self.tournament.following_round_generation()
 

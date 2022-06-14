@@ -40,6 +40,10 @@ class Tournaments:
         self.state == "round_start"
         return self.rounds_list[-1].start_round()
 
+    def end_round(self):
+        self.state == "end_start"
+        self.rounds_list[-1].end_round()
+
     @property
     def serialized(self):
         tournament_dict = dict(self.__dict__)
@@ -49,6 +53,8 @@ class Tournaments:
         tournament_dict["rounds_list"] = [
             round.serialized for round in self.rounds_list
         ]
+        print(self.players_list)
+        tournament_dict["players_list"] = [player.id for player in self.players_list]
 
         return tournament_dict
 
@@ -113,7 +119,6 @@ class Tournaments:
 
     def following_round_generation(self):
         ranked_players_list = self.ranking_players_after_round()
-        print(ranked_players_list)
         players_pair_list = []
         while ranked_players_list:
             j = 1
@@ -134,15 +139,6 @@ class Tournaments:
             ranked_players_list.remove(ranked_players_list[j])
             ranked_players_list.remove(ranked_players_list[0])
 
-        # for e in players_pair_list:
-        # print(e)
-
-        print(
-            "Round " + str(len(self.rounds_list) + 1),
-            players_pair_list,
-        )
-        input()
-
         self.rounds_list.append(
             Rounds(
                 name="Round " + str(len(self.rounds_list) + 1),
@@ -150,18 +146,17 @@ class Tournaments:
             )
         )
 
-        def first_round_generation(self):
-            players_pair_list = []
-            half_players_number = int(len(self.players_list) / 2)
-
-            for i in range(half_players_number):
-                players_pair_list.append(
-                    (self.players_list[i], self.players_list[i + half_players_number])
-                )
-
-            self.rounds_list.append(
-                Rounds(
-                    name="Round " + str(len(self.rounds_list) + 1),
-                    matches_list=players_pair_list,
-                )
+    def first_round_generation(self):
+        players_pair_list = []
+        half_players_number = int(len(self.players_list) / 2)
+        for i in range(half_players_number):
+            players_pair_list.append(
+                (self.players_list[i], self.players_list[i + half_players_number])
             )
+
+        self.rounds_list.append(
+            Rounds(
+                name="Round " + str(len(self.rounds_list) + 1),
+                matches_list=players_pair_list,
+            )
+        )

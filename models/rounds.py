@@ -10,21 +10,27 @@ class Rounds:
         self, name="", start_time_round=None, end_time_round=None, matches_list=[]
     ):
 
-        for match in matches_list:
-            print(match)
-            first_player = match[0][0]
-            print(first_player)
-            second_player = match[1][0]
-            result_first_player = match[0][1]
-            result_second_player = match[1][1]
-            self.matches_list.append(
-                Matches(
-                    first_player,
-                    second_player,
-                    result_first_player,
-                    result_second_player,
+        if isinstance(matches_list[0][0], list):  # score exist
+            self.matches_list = []
+            for match in matches_list:
+                first_player = match[0][0]
+                second_player = match[1][0]
+                result_first_player = match[0][1]
+                result_second_player = match[1][1]
+                self.matches_list.append(
+                    Matches(
+                        first_player,
+                        second_player,
+                        result_first_player,
+                        result_second_player,
+                    )
                 )
-            )
+
+        else:
+            self.matches_list = [
+                Matches(first_player, second_player)
+                for first_player, second_player in matches_list
+            ]
 
         self.name = name
         self.start_time_round = start_time_round
@@ -63,7 +69,6 @@ class Rounds:
 
     def end_round(self):
         self.end_time_round = datetime.datetime.today().strftime("%Y-%m-%d %H:%M")
-        print("end at", self.end_time_round)
 
     def input_results(self, result_list):
 
