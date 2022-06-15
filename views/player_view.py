@@ -4,6 +4,7 @@ from views.views import Views
 
 
 class PlayerView(Views):
+    """manages the input and output of the player controller"""
 
     columns_name_dict = {
         "players_display": {
@@ -71,9 +72,7 @@ class PlayerView(Views):
             player["first_name"] = entry
 
         while True:
-            entry = input(
-                "Date de naissance (JJ/MM/AAAA) : " + player["birth_date"] + " "
-            )
+            entry = input("Date de naissance (JJ/MM/AAAA) : " + player["birth_date"] + " ")
             if entry == "":
                 break
             elif (

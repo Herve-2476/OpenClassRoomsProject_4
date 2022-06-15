@@ -1,16 +1,16 @@
 from views.views import Views
 
 
-class Menu(Views):
-    """displays and validates the user's choice"""
+class MenuView(Views):
+    """displays and validates the user's choice through all menus"""
 
     def __init__(self, menu_list):
         self.menu_list = menu_list
 
     def display_menu(self):
         print()
-        for id, item in enumerate(self.menu_list):
-            print(f"{id+1:^4}{item:40}")
+        for id, item_menu in enumerate(self.menu_list):
+            print(f"{id+1:^4}{item_menu:40}")
         print()
         while True:
 

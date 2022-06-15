@@ -19,9 +19,7 @@ class ApplicationsControllers:
         self.round_menu = MenuController("round_menu")
         self.db = Models()
         self.players_controller = PlayersController(self.db)
-        self.tournaments_controller = TournamentsController(
-            self.db, self.players_controller
-        )
+        self.tournaments_controller = TournamentsController(self.db, self.players_controller)
         self.main_menu.view.clear_console()
         self.run_main_menu()
 
@@ -34,14 +32,10 @@ class ApplicationsControllers:
                 )
 
             elif self.main_menu.choice == 2:
-                self.players_controller.display_players_list(
-                    order="classement", display_name="players_display"
-                )
+                self.players_controller.display_players_list(order="classement", display_name="players_display")
 
             elif self.main_menu.choice == 3:
-                self.tournaments_controller.display_tournaments_list(
-                    display_name="tournaments_display"
-                )
+                self.tournaments_controller.display_tournaments_list(display_name="tournaments_display")
 
             elif self.main_menu.choice == 4:
                 self.players_controller.add_player()
@@ -51,11 +45,9 @@ class ApplicationsControllers:
 
             elif self.main_menu.choice == 6:
 
-                self.tournaments_controller.control_tournament_selection()
+                self.tournaments_controller.select_last_tournament()
 
-                self.main_menu.view.clear_console(
-                    self.tournaments_controller.name_selected_tournament
-                )
+                self.main_menu.view.clear_console(self.tournaments_controller.name_selected_tournament)
                 self.run_tournament_menu()
 
             else:
@@ -82,14 +74,10 @@ class ApplicationsControllers:
                 )
 
             elif self.tournament_menu.choice == 5:
-                self.tournaments_controller.display_tournament_rounds_list(
-                    display_name="rounds_display"
-                )
+                self.tournaments_controller.display_tournament_rounds_list(display_name="rounds_display")
 
             elif self.tournament_menu.choice == 6:
-                self.tournaments_controller.display_tournament_matches_list(
-                    display_name="matches_display"
-                )
+                self.tournaments_controller.display_tournament_matches_list(display_name="matches_display")
 
             elif self.tournament_menu.choice == 7:
                 self.tournaments_controller.display_tournament_ranking_players_list(
@@ -98,7 +86,7 @@ class ApplicationsControllers:
 
             elif self.tournament_menu.choice == 8:
 
-                if self.tournaments_controller.control_round_selection():
+                if self.tournaments_controller.select_round():
                     self.run_round_menu()
 
             elif self.tournament_menu.choice == 9:
@@ -116,7 +104,5 @@ class ApplicationsControllers:
                 break
 
             elif self.round_menu.choice == 3:
-                self.tournament_menu.view.clear_console(
-                    self.tournaments_controller.name_selected_tournament
-                )
+                self.tournament_menu.view.clear_console(self.tournaments_controller.name_selected_tournament)
                 break

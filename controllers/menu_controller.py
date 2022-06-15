@@ -25,7 +25,7 @@ class MenuController:
             "Liste de tous les tours d'un tournoi",
             "Liste de tous les matchs d'un tournoi",
             "Classement des joueurs dans le tournoi",
-            "Menu round",
+            "Menu ronde",
             "Menu principal",
         ],
         "round_menu": [
@@ -37,7 +37,7 @@ class MenuController:
 
     def __init__(self, menu):
         self.menu_list = self.menu_dict[menu]
-        self.view = views.menu_view.Menu(self.menu_list)
+        self.view = views.menu_view.MenuView(self.menu_list)
 
     def display(self):
         while True:

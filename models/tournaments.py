@@ -26,6 +26,7 @@ class Tournaments:
         self.time_control = time_control
         self.players_list = players_list
         self.description = description
+        self.rounds_list = [Rounds(**round) for round in self.rounds_list]
 
         self.state = None
         self.matches_already_played_list = []
@@ -33,17 +34,18 @@ class Tournaments:
     def record_match(self, match, score):
         if score == "V":
             match.add_score(1, 0)
+            # add_score
         elif score == "E":
             match.add_score(0.5, 0.5)
         else:
             match.add_score(0, 1)
 
     def start_round(self):
-        self.state == "round_start"
+        self.state = "round_start"
         return self.rounds_list[-1].start_round()
 
     def end_round(self):
-        self.state == "end_start"
+        self.state = "end_start"
         self.rounds_list[-1].end_round()
 
     @property
@@ -52,22 +54,11 @@ class Tournaments:
         del tournament_dict["state"]
         del tournament_dict["matches_already_played_list"]
 
-        tournament_dict["rounds_list"] = [
-            round.serialized for round in self.rounds_list
-        ]
+        tournament_dict["rounds_list"] = [round.serialized for round in self.rounds_list]
 
         tournament_dict["players_list"] = [player.id for player in self.players_list]
 
         return tournament_dict
-
-    def add_player(self, player):
-        self.players_list.append(player)
-
-    def score_display(self, ranked_players_point_list):
-        for e in ranked_players_point_list:
-            print(
-                f"{e[2].last_name} a {e[0]} points dans le tournoi et est classé {e[1]}"
-            )
 
     def last_round_analyze(self):
 
@@ -107,12 +98,8 @@ class Tournaments:
                 result_two = match.match[1][1]
                 if result_one is not None:
                     self.matches_already_played_list.append((player_one, player_two))
-                    players_dict[player_one] = (
-                        players_dict.get(player_one, 0) + result_one
-                    )
-                    players_dict[player_two] = (
-                        players_dict.get(player_two, 0) + result_two
-                    )
+                    players_dict[player_one] = players_dict.get(player_one, 0) + result_one
+                    players_dict[player_two] = players_dict.get(player_two, 0) + result_two
         ranked_players_list = []
 
         for key, value in players_dict.items():
@@ -130,10 +117,7 @@ class Tournaments:
         while ranked_players_list:
             j = 1
             # print("j = ", j, ranked_players_list)
-            while (
-                ranked_players_list[0],
-                ranked_players_list[j],
-            ) in self.matches_already_played_list or (
+            while (ranked_players_list[0], ranked_players_list[j],) in self.matches_already_played_list or (
                 ranked_players_list[j],
                 ranked_players_list[0],
             ) in self.matches_already_played_list:
@@ -157,9 +141,7 @@ class Tournaments:
         players_pair_list = []
         half_players_number = int(len(self.players_list) / 2)
         for i in range(half_players_number):
-            players_pair_list.append(
-                (self.players_list[i], self.players_list[i + half_players_number])
-            )
+            players_pair_list.append((self.players_list[i], self.players_list[i + half_players_number]))
 
         self.rounds_list.append(
             Rounds(

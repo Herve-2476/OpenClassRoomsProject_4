@@ -4,6 +4,8 @@ from views.views import Views
 
 
 class TournamentView(Views):
+    """manages the input and output of the tournament controller"""
+
     columns_name_dict = {
         "tournaments_display": {
             "name": "Nom du tournoi",
@@ -32,9 +34,10 @@ class TournamentView(Views):
             "match": "Matchs à jouer",
         },
         "tournament_ranking_display": {
+            "rank": "rang",
             "score": "Score",
             "name": "Nom Prénom",
-            "ranking": "Classement",
+            "ranking": "Classement actuel",
         },
     }
 
@@ -43,7 +46,7 @@ class TournamentView(Views):
         "rounds_display": "{0:^8}{1:17}{2:25}{3:25}",
         "matches_display": "{0:^8}{1:^20}{3:^7}{2:25}{5:^7}{4:25}",
         "matches_to_play_display": "{0:^8}{1:20}{2:30}",
-        "tournament_ranking_display": "{0:^8}{1:^7}{2:25}{3:^10}",
+        "tournament_ranking_display": "{0:^8}{1:^7}{2:^7}{3:25}{4:^18}",
     }
     title_display = {
         "tournaments_display": "Liste des tournois",
@@ -55,9 +58,6 @@ class TournamentView(Views):
 
     def __init__(self):
         super().__init__("tournaments")
-
-    def message(self, message):
-        print(message)
 
     def input_tournament(self):
         data = {}
@@ -94,8 +94,6 @@ class TournamentView(Views):
     def input_result(self, first_player, match):
 
         while True:
-            entry = input(
-                f"Dans le match {match}, merci de saisir le résultat de {first_player} : "
-            )
+            entry = input(f"Dans le match {match}, merci de saisir le résultat de {first_player} : ")
             if entry in ["V", "E", "P"]:
                 return entry
