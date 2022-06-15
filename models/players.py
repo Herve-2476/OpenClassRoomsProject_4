@@ -1,5 +1,5 @@
 class Players:
-    """to create a player instance"""
+    """description of the player entity"""
 
     def __init__(self, last_name, first_name, birth_date, gender, ranking, id):
         self.last_name = last_name

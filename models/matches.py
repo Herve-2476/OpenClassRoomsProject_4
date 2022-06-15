@@ -1,4 +1,9 @@
 class Matches:
+    """
+    description of the match entity which is
+    itself composed of player entities
+    """
+
     def __init__(
         self,
         first_player,

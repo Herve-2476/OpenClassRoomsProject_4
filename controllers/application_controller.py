@@ -5,6 +5,11 @@ from models.models import Models
 
 
 class ApplicationsControllers:
+    """
+    Manages through menu, player and tournament controllers,the user's
+    requests through his choices in the menus
+    """
+
     def __init__(self):
         self.run()
 
@@ -25,17 +30,17 @@ class ApplicationsControllers:
             self.main_menu.display()
             if self.main_menu.choice == 1:
                 self.players_controller.display_players_list(
-                    id=False, order="ordre Alphabétique", display_name="players_display"
+                    order="ordre Alphabétique", display_name="players_display"
                 )
 
             elif self.main_menu.choice == 2:
                 self.players_controller.display_players_list(
-                    id=False, order="classement", display_name="players_display"
+                    order="classement", display_name="players_display"
                 )
 
             elif self.main_menu.choice == 3:
                 self.tournaments_controller.display_tournaments_list(
-                    id=False, display_name="tournaments_display"
+                    display_name="tournaments_display"
                 )
 
             elif self.main_menu.choice == 4:

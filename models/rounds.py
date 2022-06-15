@@ -4,7 +4,10 @@ from .matches import Matches
 
 
 class Rounds:
-    """description of a round"""
+    """
+    description of the round entity which is
+    itself composed of match entities
+    """
 
     def __init__(
         self, name="", start_time_round=None, end_time_round=None, matches_list=[]

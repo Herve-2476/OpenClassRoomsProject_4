@@ -2,7 +2,10 @@ from .rounds import Rounds
 
 
 class Tournaments:
-    """to create an tournament instance"""
+    """
+    manages the tournament entity including the Swiss system
+    for the definition of matches in a round
+    """
 
     def __init__(
         self,

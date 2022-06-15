@@ -19,7 +19,7 @@ class Views:
         form = self.format_line_display[display_name]
         print(form.format(*[str(arg) for arg in line]))
 
-    def display_db_list(self, db_table_list, id=True, order="", display_name=""):
+    def display_db_list_old(self, db_table_list, id=True, order="", display_name=""):
         self.clear_console()
         print(self.title_display[display_name], order)
         print()
@@ -48,18 +48,35 @@ class Views:
                     )
             print()
 
-    def display_list(self, list_to_display, order="", title="", display_name=""):
+    def display_list(
+        self, list_to_display, id=False, order="", title="", display_name=""
+    ):
         if not title:
             print(self.title_display[display_name], order)
         else:
             print(title)
 
+        id_name = ""
+        if id:
+            id_name = "ID"
+
         print()
         self.display_line(
-            [""] + list(self.columns_name_dict[display_name].values()), display_name
+            [id_name] + list(self.columns_name_dict[display_name].values()),
+            display_name,
         )
-        for record in list_to_display:
-            self.display_line([""] + [value for value in record.values()], display_name)
+        if id_name:
+            for record in list_to_display:
+                self.display_line(
+                    [record.doc_id] + [value for value in record.values()], display_name
+                )
+
+        else:
+            for record in list_to_display:
+                self.display_line(
+                    [""] + [value for value in record.values()], display_name
+                )
+        print()
 
     def id_choice(self, id_list, title="Choix d'un élément de la table"):
         if title:

@@ -18,6 +18,24 @@ This project aims to implement the MVC (Model, View, Controller) design pattern 
 * pip install -r requirements.txt
 
 
-## Launch of the program
+## Running the program
 
 * python chess.py
+
+## Compliance with PEP 8 guidelines
+
+* flake8 --format=html --htmldir=flake8_rapport --max-line-length 119 views models controllers chess.py
+
+## Use of the program
+
+* Enter at least height players (Default number of a tournament) through the main menu
+
+* Create a tournament through the tournament menu
+
+* Play all four rounds through the round menu
+
+* Change a player's ranking trough the main menu
+
+* Generate reports through the main and tournament menus
+
+

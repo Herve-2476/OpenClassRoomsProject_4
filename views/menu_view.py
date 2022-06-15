@@ -2,6 +2,8 @@ from views.views import Views
 
 
 class Menu(Views):
+    """displays and validates the user's choice"""
+
     def __init__(self, menu_list):
         self.menu_list = menu_list
 

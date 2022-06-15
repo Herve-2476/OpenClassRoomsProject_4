@@ -1,15 +1,18 @@
 import re
+from chess import DATE_REGEX
 from views.player_view import PlayerView
 
 
 class PlayersController:
+    """
+    Manages user requests (through the player view)
+    with the player model
+    """
+
     def __init__(self, db):
         self.player_view = PlayerView()
         self.db = db
         self.table = db.table("players")
-        self.date_regex = (
-            r"(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d"
-        )
 
     def display_players_list(self, order="", **args):
         self.player_view.clear_console()
@@ -19,7 +22,7 @@ class PlayersController:
             table.sort(key=lambda x: x["first_name"])
             table.sort(key=lambda x: x["last_name"])
 
-        self.player_view.display_db_list(table, order=order, **args)
+        self.player_view.display_list(table, order=order, **args)
         return [record.doc_id for record in table]
 
     def add_player(self):
@@ -35,7 +38,7 @@ class PlayersController:
     def modify_player(self):
         self.player_view.clear_console()
         id_list = self.display_players_list(
-            order="ordre Alphabétique", display_name="players_display"
+            id=True, order="ordre Alphabétique", display_name="players_display"
         )
         while True:
             id_choice = self.player_view.id_choice(id_list)
@@ -54,7 +57,7 @@ class PlayersController:
         control = [
             isinstance(player["last_name"], str),
             isinstance(player["first_name"], str),
-            re.match(self.date_regex, player["birth_date"]),
+            re.match(DATE_REGEX, player["birth_date"]),
             player["gender"] in ["M", "F"],
             isinstance(player["ranking"], int),
         ]

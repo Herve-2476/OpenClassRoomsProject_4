@@ -2,6 +2,11 @@ from tinydb import TinyDB
 
 
 class Models(TinyDB):
+    """
+    Models is the interface with TinyDB, if we change
+    the database this is where we will make the changes
+    """
+
     def __init__(self):
         super().__init__("db.json")
 
@@ -16,6 +21,3 @@ class Models(TinyDB):
 
     def update_id(self, table, id, table_object):
         return table.update(table_object, doc_ids=[id])
-
-    def save(self):
-        pass

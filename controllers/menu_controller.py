@@ -2,13 +2,18 @@ import views.menu_view
 
 
 class MenuController:
+    """
+    defines the three menus and controls
+    through the menu view the user's choices
+    """
+
     menu_dict = {
         "main_menu": [
             "Liste de tous les joueurs par ordre alphabétique",
             "Liste de tous les joueurs par classement",
             "Liste de tous les tournois",
             "Entrer un nouveau joueur",
-            "Modifier un joueur",
+            "Modifier un joueur (Classement, Nom...)",
             "Menu tournoi",
             "Quitter",
         ],

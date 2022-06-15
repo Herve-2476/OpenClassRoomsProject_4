@@ -1,14 +1,18 @@
 import re
+from chess import DATE_REGEX
 from views.tournament_view import TournamentView
 from models.tournaments import Tournaments
 from models.rounds import Rounds
 from models.matches import Matches
 from models.players import Players
 
-# import random
-
 
 class TournamentsController:
+    """
+    Manages user requests (through the tournament view)
+    with the tournament model
+    """
+
     def __init__(self, db, players_controller):
         self.tournament_view = TournamentView()
         self.db = db
@@ -18,78 +22,41 @@ class TournamentsController:
         self.id_selected_tournament = 0
         self.name_selected_tournament = ""
         self.players_controller = players_controller
-        self.date_regex = (
-            r"(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d"
-        )
         self.tournament = None
 
         # self.table.truncate()
         # for i in range(6, 11):
         # self.table.remove(doc_ids=[i])
 
-    def display_tournament_ranking_players_list(self, **args):
-        _, ranked_players_point_list = self.tournament.ranking_players_after_round()
-        display_list = []
-
-        for point, ranking, player in ranked_players_point_list:
-            display_list.append(
-                {
-                    "score": float(point),
-                    "name": player.last_name + " " + player.first_name,
-                    "ranking": ranking,
-                }
-            )
-        self.tournament_view.clear_console(self.name_selected_tournament)
-        self.tournament_view.display_list(display_list, **args)
-
-    def players_instantiation(self, players_list):
-        self.players_dict = {}
-        print(players_list)
-        for id_player in players_list:
-            self.players_dict[id_player] = Players(
-                id=id_player, **self.id_player_to_dict_player(id_player)
-            )
-        return list(self.players_dict.values())
+    def display_tournaments_list(self, **args):
+        table = self.db.load_all(self.table)
+        self.tournament_view.clear_console()
+        self.tournament_view.display_list(table, **args)
+        return [record.doc_id for record in table]
 
     def control_tournament_selection(self):
-        """Menu Tournament = if no tournament selected, the last input tournament
-        is selected if it exists"""
+        """
+        if no tournament selected,
+        the last input tournament
+        is selected if it exists
+        """
 
         if self.tournament is None:
-            id_tournaments_list = self.display_tournaments_list(
-                display_name="tournaments_display"
-            )
+            id_tournaments_list = [
+                record.doc_id for record in self.db.load_all(self.table)
+            ]
             if id_tournaments_list:
                 self.select_tournament(id_tournaments_list[-1])
 
-    def display_tournaments_list(self, **args):
-        table = self.db.load_all(self.table)
-        self.tournament_view.display_db_list(table, **args)
-        return [record.doc_id for record in table]
-
-    def load_tournament(self):
-        self.tournament_view.clear_console(self.name_selected_tournament)
-        id_tournaments_list = self.display_tournaments_list(
-            display_name="tournaments_display"
-        )
-        if id_tournaments_list:
-            while True:
-                id_choice = self.tournament_view.id_choice(id_tournaments_list)
-                if id_choice in id_tournaments_list:
-                    break
-            self.select_tournament(id_choice)
-
     def select_tournament(self, id_choice):
+        """load in memory the selected tournament"""
         self.tournament = self.instantiation(id_choice)
 
-    def id_to_instance_player(self, rounds_list):
-        for round in rounds_list:
-            for match in round["matches_list"]:
-                match[0][0] = self.players_dict[match[0][0]]
-                match[1][0] = self.players_dict[match[1][0]]
-        return rounds_list
-
     def instantiation(self, id_choice=None, tournament_dict=None):
+        """
+        we instantiate from the database or from
+        a dictionary (after adding a tournament)
+        """
         if not tournament_dict:
             tournament_dict = self.db.get_id(self.table, id_choice)
 
@@ -126,6 +93,49 @@ class TournamentsController:
         self.tournament_view.clear_console(self.name_selected_tournament)
         self.id_choice = id_choice
         return tournament
+
+    def display_tournament_ranking_players_list(self, **args):
+        _, ranked_players_point_list = self.tournament.ranking_players_after_round()
+        display_list = []
+
+        for point, ranking, player in ranked_players_point_list:
+            display_list.append(
+                {
+                    "score": float(point),
+                    "name": player.last_name + " " + player.first_name,
+                    "ranking": ranking,
+                }
+            )
+        self.tournament_view.clear_console(self.name_selected_tournament)
+        self.tournament_view.display_list(display_list, **args)
+
+    def players_instantiation(self, players_list):
+        self.players_dict = {}
+        print(players_list)
+        for id_player in players_list:
+            self.players_dict[id_player] = Players(
+                id=id_player, **self.id_player_to_dict_player(id_player)
+            )
+        return list(self.players_dict.values())
+
+    def load_tournament(self):
+        self.tournament_view.clear_console(self.name_selected_tournament)
+        id_tournaments_list = self.display_tournaments_list(
+            display_name="tournaments_display"
+        )
+        if id_tournaments_list:
+            while True:
+                id_choice = self.tournament_view.id_choice(id_tournaments_list)
+                if id_choice in id_tournaments_list:
+                    break
+            self.select_tournament(id_choice)
+
+    def id_to_instance_player(self, rounds_list):
+        for round in rounds_list:
+            for match in round["matches_list"]:
+                match[0][0] = self.players_dict[match[0][0]]
+                match[1][0] = self.players_dict[match[1][0]]
+        return rounds_list
 
     def id_player_to_dict_player(self, id_player):
         return self.db.get_id(self.players_controller.table, id_player)
@@ -170,7 +180,7 @@ class TournamentsController:
         control = [
             isinstance(tournament["name"], str),
             isinstance(tournament["location"], str),
-            re.match(self.date_regex, tournament["date"]),
+            re.match(DATE_REGEX, tournament["date"]),
             tournament["time_control"] in ["bullet", "blitz", "coup rapide"],
             isinstance(tournament["description"], str),
         ]

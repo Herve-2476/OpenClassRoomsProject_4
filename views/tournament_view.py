@@ -1,4 +1,5 @@
 import re
+from chess import DATE_REGEX
 from views.views import Views
 
 
@@ -66,7 +67,7 @@ class TournamentView(Views):
             entry = input("Date du tournoi (JJ/MM/AAAA) : ")
             if (
                 re.match(
-                    r"(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1\d|0[1-9]|1[012])\/(19|20)\d\d",
+                    DATE_REGEX,
                     entry,
                 )
                 is not None
