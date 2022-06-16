@@ -2,7 +2,7 @@ This project aims to implement the MVC (Model, View, Controller) design pattern 
 
 ## Clone of the repository
 
-* git clone https://github.com/Herve-2476/OpenClassRoomsProjet_4.git
+* git clone https://github.com/Herve-2476/OpenClassRoomsProject_4.git
 
 * cd OpenClassRoomsProjet_4
 
