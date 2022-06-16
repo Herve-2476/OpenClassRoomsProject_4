@@ -34,8 +34,11 @@ This project aims to implement the MVC (Model, View, Controller) design pattern 
 
 * Play all four rounds through the round menu
 
-* Change a player's ranking trough the main menu
+* Change a player's ranking through the main menu
 
 * Generate reports through the main and tournament menus
 
+* it is possible to create a player, a tournament or modify a player (the ranking for example) at any time
+
+* the last tournament in the database is always select when you choose the tournament menu
 

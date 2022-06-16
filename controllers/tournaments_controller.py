@@ -25,10 +25,6 @@ class TournamentsController:
         self.id_choice = None
         self.players_dict = None
 
-        # self.table.truncate()
-        # for i in range(6, 11):
-        # self.table.remove(doc_ids=[i])
-
     def display_tournaments_list(self, **args):
         table = self.db.load_all(self.table)
         self.tournament_view.clear_console()
@@ -107,7 +103,7 @@ class TournamentsController:
         self.tournament = self.instantiation(tournament_dict=tournament_dict)
         # creation of the first round
         self.tournament.first_round_generation()
-        self.db.insert(self.table, self.tournament.serialized)
+        self.id_choice = self.db.insert(self.table, self.tournament.serialized)
 
     def display_tournament_rounds_list(self, **args):
         self.tournament_view.clear_console(self.name_selected_tournament)
@@ -226,7 +222,6 @@ class TournamentsController:
             self.tournament_view.message("La ronde n'est pas démarrée...")
 
     def save(self):
-
         self.db.update_id(self.table, self.id_choice, self.tournament.serialized)
 
     def control_data_tournament(self, tournament):

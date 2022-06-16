@@ -116,14 +116,15 @@ class Tournaments:
         players_pair_list = []
         while ranked_players_list:
             j = 1
-            # print("j = ", j, ranked_players_list)
             while (ranked_players_list[0], ranked_players_list[j],) in self.matches_already_played_list or (
                 ranked_players_list[j],
                 ranked_players_list[0],
             ) in self.matches_already_played_list:
-                # print("égalité trouvée")
+                # match already played
                 if j == len(ranked_players_list) - 1:
-                    # print("on est allé jusqu'au bout")
+                    # no more possible combinations so we keep the first combinations
+                    # that is the two strongest players in this tournament so far
+                    j = 1
                     break
                 j += 1
             players_pair_list.append((ranked_players_list[0], ranked_players_list[j]))
@@ -138,10 +139,14 @@ class Tournaments:
         )
 
     def first_round_generation(self):
+        # sort the player list to generate the firt round
+        players_list = [(player.ranking, player) for player in self.players_list]
+        players_list.sort()
+        players_list = [player for _, player in players_list]
         players_pair_list = []
         half_players_number = int(len(self.players_list) / 2)
         for i in range(half_players_number):
-            players_pair_list.append((self.players_list[i], self.players_list[i + half_players_number]))
+            players_pair_list.append((players_list[i], players_list[i + half_players_number]))
 
         self.rounds_list.append(
             Rounds(
