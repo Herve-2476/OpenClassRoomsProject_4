@@ -141,7 +141,7 @@ class Tournaments:
     def first_round_generation(self):
         # sort the player list to generate the firt round
         players_list = [(player.ranking, player) for player in self.players_list]
-        players_list.sort()
+        players_list.sort(key=lambda x: x[0])
         players_list = [player for _, player in players_list]
         players_pair_list = []
         half_players_number = int(len(self.players_list) / 2)

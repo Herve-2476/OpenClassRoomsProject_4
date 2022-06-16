@@ -4,7 +4,7 @@ This project aims to implement the MVC (Model, View, Controller) design pattern 
 
 * git clone https://github.com/Herve-2476/OpenClassRoomsProject_4.git
 
-* cd OpenClassRoomsProjet_4
+* cd OpenClassRoomsProject_4
 
 
 ## Creation of the virtual environment (Python 3.7)
