@@ -24,6 +24,7 @@ class TournamentsController:
         self.tournament = None
         self.id_choice = None
         self.players_dict = None
+        # self.table.truncate()
 
     def display_tournaments_list(self, **args):
         table = self.db.load_all(self.table)

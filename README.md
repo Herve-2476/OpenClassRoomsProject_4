@@ -28,7 +28,7 @@ This project aims to implement the MVC (Model, View, Controller) design pattern 
 
 ## Use of the program
 
-* Enter at least height players (Default number of a tournament) through the main menu
+* Enter at least eight players (Default number of a tournament) through the main menu
 
 * Create a tournament through the tournament menu
 
